@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🪄 RSVP Bruxo 16/04/2027 🪄</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=MedievalSharp&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(to bottom, #001f3f, #000);
+            font-family: 'MedievalSharp', cursive;
+            color: #d4af37;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        #header {
+            text-align: center;
+            padding: 20px;
+            background: #001f3f;
+            border-bottom: 5px solid #d4af37;
+            margin: -20px -20px 20px -20px;
+        }
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5em;
+            margin: 0;
+            text-shadow: 3px 3px 6px #000;
+            color: #d4af37;
+        }
+        #countdown {
+            font-size: 1.4em;
+            margin: 10px 0;
+            text-shadow: 1px 1px 3px #000;
+        }
+        #main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        input, button {
+            font-family: inherit;
+            padding: 15px;
+            margin: 10px 5px;
+            border: 3px solid #d4af37;
+            background: #000;
+            color: #d4af37;
+            font-size: 1.1em;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        input:focus {
+            outline: none;
+            box-shadow: 0 0 10px #d4af37;
+        }
+        button:hover {
+            background: #001f3f;
+            box-shadow: 0 0 15px #d4af37;
+        }
+        .quiz-question {
+            margin: 25px 0;
+            padding: 20px;
+            background: rgba(0, 31, 63, 0.6);
+            border-left: 6px solid #d4af37;
+            border-radius: 5px;
+        }
+        .quiz-question h3 {
+            margin-top: 0;
+            color: #d4af37;
+            font-family: 'Cinzel', serif;
+        }
+        label {
+            display: block;
+            margin: 12px 0;
+            cursor: pointer;
+            padding: 5px;
+        }
+        input[type="radio"] {
+            margin-right: 12px;
+            transform: scale(1.2);
+        }
+        #confirm-section {
+            text-align: center;
+            padding: 50px 20px;
+            border: 6px solid #d4af37;
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 15px;
+            animation: glow 2s infinite alternate;
+            margin-top: 20px;
+        }
+        #confirm-section h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 2em;
+        }
+        #confirm-section strong {
+            color: #d4af37;
+            text-shadow: 2px 2px 4px #000;
+        }
+        @keyframes glow {
+            0% { box-shadow: 0 0 20px #d4af37; }
+            100% { box-shadow: 0 0 40px #d4af37, 0 0 60px #d4af37; }
+        }
+        .panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #001f3f;
+            padding: 25px;
+            border: 4px solid #d4af37;
+            border-radius: 12px;
+            max-width: 280px;
+            font-size: 1em;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.6);
+            z-index: 1000;
+        }
+        .panel h4 {
+            margin-top: 0;
+            text-align: center;
+            font-family: 'Cinzel', serif;
+        }
+        .panel div {
+            margin: 8px 0;
+        }
+        .admin-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: #d4af37;
+            font-size: 2.2em;
+            cursor: pointer;
+            z-index: 1001;
+            text-shadow: 2px 2px 4px #000;
+            transition: transform 0.3s;
+        }
+        .admin-btn:hover {
+            transform: scale(1.2);
+            color: #fff;
+        }
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            #header { margin: -10px -10px 20px; padding: 15px; }
+            h1 { font-size: 2em; }
+            #countdown { font-size: 1.2em; }
+            .panel { right: 10px; bottom: 10px; max-width: 220px; font-size: 0.9em; padding: 20px; }
+            .admin-btn { top: 10px; right: 10px; font-size: 1.8em; }
+            input, button { width: 100%; margin: 10px 0; }
+        }
+    </style>
+</head>
+<body>
+    <button id="admin-btn" class="admin-btn" title="Admin">🔑</button>
+    
+    <header id="header">
+        <h1>🪄 RSVP Bruxo 16/04/2027 🪄</h1>
+        <div id="countdown">Carregando...</div>
+        <p>19h às 23h - Prepare sua varinha!</p>
+    </header>
+
+    <div id="main">
+        <div id="input-section">
+            <h2 style="text-align: center; font-family: 'Cinzel', serif;">Digite seu nome, bruxo(a):</h2>
+            <input type="text" id="name" placeholder="Ex: Harry Potter" maxlength="50">
+            <button onclick="startQuiz()">🪄 Iniciar Teste do Chapéu Seletor 🪄</button>
+        </div>
+
+        <div id="quiz-section" style="display: none;">
+            <h2 style="text-align: center; font-family: 'Cinzel', serif;">Teste do Chapéu Seletor</h2>
+            <p style="text-align: center;">Responda às 10 perguntas para descobrir sua Casa e Facção.</p>
+
+            <!-- Perguntas Casas -->
+            <div class="quiz-question">
+                <h3>1. Qual é a sua maior virtude?</h3>
+                <label><input type="radio" name="qh1" value="A"> A) Coragem inabalável</label>
+                <label><input type="radio" name="qh1" value="B"> B) Astúcia e ambição</label>
+                <label><input type="radio" name="qh1" value="C"> C) Lealdade e trabalho duro</label>
+                <label><input type="radio" name="qh1" value="D"> D) Inteligência e sabedoria</label>
+            </div>
+            <div class="quiz-question">
+                <h3>2. Como você enfrentaria um dragão?</h3>
+                <label><input type="radio" name="qh2" value="A"> A) Atacando de frente</label>
+                <label><input type="radio" name="qh2" value="B"> B) Usando truques engenhosos</label>
+                <label><input type="radio" name="qh2" value="C"> C) Trabalhando em equipe</label>
+                <label><input type="radio" name="qh2" value="D"> D) Estudando suas fraquezas</label>
+            </div>
+            <div class="quiz-question">
+                <h3>3. Qual ambiente Hogwarts te atrai mais?</h3>
+                <label><input type="radio" name="qh3" value="A"> A) Campos de quadribol</label>
+                <label><input type="radio" name="qh3" value="B"> B) Masmorras frias</label>
+                <label><input type="radio" name="qh3" value="C"> C) Cozinha aconchegante</label>
+                <label><input type="radio" name="qh3" value="D"> D) Torre de astronomia</label>
+            </div>
+            <div class="quiz-question">
+                <h3>4. Seu patrono seria?</h3>
+                <label><input type="radio" name="qh4" value="A"> A) Leão ou fênix</label>
+                <label><input type="radio" name="qh4" value="B"> B) Serpente</label>
+                <label><input type="radio" name="qh4" value="C"> C) Texugo</label>
+                <label><input type="radio" name="qh4" value="D"> D) Águia</label>
+            </div>
+            <div class="quiz-question">
+                <h3>5. O que mais te motiva?</h3>
+                <label><input type="radio" name="qh5" value="A"> A) Proteger os fracos</label>
+                <label><input type="radio" name="qh5" value="B"> B) Alcançar grandeza pessoal</label>
+                <label><input type="radio" name="qh5" value="C"> C) Ser leal aos amigos</label>
+                <label><input type="radio" name="qh5" value="D"> D) Descobrir novos conhecimentos</label>
+            </div>
+
+            <!-- Perguntas Facções -->
+            <div class="quiz-question">
+                <h3>6. A pureza de sangue é essencial para a verdadeira magia?</h3>
+                <label><input type="radio" name="qf1" value="A"> A) Não</label>
+                <label><input type="radio" name="qf1" value="B"> B) Sim</label>
+            </div>
+            <div class="quiz-question">
+                <h3>7. Você usaria magia das trevas para um bem maior?</h3>
+                <label><input type="radio" name="qf2" value="A"> A) Não</label>
+                <label><input type="radio" name="qf2" value="B"> B) Sim</label>
+            </div>
+            <div class="quiz-question">
+                <h3>8. Lealdade absoluta a um líder supremo é necessária?</h3>
+                <label><input type="radio" name="qf3" value="A"> A) Não</label>
+                <label><input type="radio" name="qf3" value="B"> B) Sim</label>
+            </div>
+            <div class="quiz-question">
+                <h3>9. Trouxas devem ser controlados pelos bruxos?</h3>
+                <label><input type="radio" name="qf4" value="A"> A) Não</label>
+                <label><input type="radio" name="qf4" value="B"> B) Sim</label>
+            </div>
+            <div class="quiz-question">
+                <h3>10. A Ordem da Fênix é tola por desafiar o poder estabelecido?</h3>
+                <label><input type="radio" name="qf5" value="A"> A) Não, eles estão certos</label>
+                <label><input type="radio" name="qf5" value="B"> B) Sim, o poder é tudo</label>
+            </div>
+
+            <button onclick="submitQuiz()" style="width: 100%; font-size: 1.3em;">🪄 Confirmar Casa e Facção 🪄</button>
+        </div>
+
+        <div id="confirm-section" style="display: none;">
+            <h2>🎓 RSVP Confirmado com Sucesso! 🪄</h2>
+            <p><strong>Sua Casa:</strong> <span id="confirm-house"></span></p>
+            <p><strong>Sua Facção:</strong> <span id="confirm-faction"></span></p>
+            <p>Te vemos dia <strong>16/04/2027</strong> às <strong>19h</strong>! Não se atrase, bruxo(a)! 🏰🔮</p>
+            <button onclick="resetForm()">🪄 Novo RSVP 🪄</button>
+        </div>
+    </div>
+
+    <div id="slots-panel" class="panel">
+        <h4>🪄 Vagas Restantes 🪄</h4>
+        <div><strong>Casas:</strong></div>
+        <div>Grifinória: <span id="slots-grif">15</span></div>
+        <div>Sonserina: <span id="slots-son">15</span></div>
+        <div>Lufa-Lufa: <span id="slots-lufa">15</span></div>
+        <div>Corvinal: <span id="slots-corv">15</span></div>
+        <div><strong>Fações:</strong></div>
+        <div>Ordem da Fênix: <span id="slots-ordem">30</span></div>
+        <div>Comensais da Morte: <span id="slots-comens">30</span></div>
+    </div>
+
+    <script>
+        let currentName = '';
+
+        function getRsvps() {
+            return JSON.parse(localStorage.getItem('rsvps') || '[]');
+        }
+
+        function updateSlots() {
+            const rsvps = getRsvps();
+            const hCounts = {'Grifinória': 0, 'Sonserina': 0, 'Lufa-Lufa': 0, 'Corvinal': 0};
+            const fCounts = {'Ordem da Fênix': 0, 'Comensais da Morte': 0};
+            rsvps.forEach(r => {
+                if (hCounts.hasOwnProperty(r.house)) hCounts[r.house]++;
+                if (fCounts.hasOwnProperty(r.faction)) fCounts[r.faction]++;
+            });
+
+            const setSlot = (id, count, max) => {
+                const el = document.getElementById(id);
+                const rem = Math.max(0, max - count);
+                el.textContent = rem;
+                el.style.color = rem === 0 ? '#ff4444' : '#d4af37';
+                el.style.fontWeight = rem === 0 ? 'bold' : 'normal';
+            };
+
+            setSlot('slots-grif', hCounts['Grifinória'], 15);
+            setSlot('slots-son', hCounts['Sonserina'], 15);
+            setSlot('slots-lufa', hCounts['Lufa-Lufa'], 15);
+            setSlot('slots-corv', hCounts['Corvinal'], 15);
+            setSlot('slots-ordem', fCounts['Ordem da Fênix'], 30);
+            setSlot('slots-comens', fCounts['Comensais da Morte'], 30);
+        }
+
+        function updateCountdown() {
+            const eventDate = new Date('2027-04-16T19:00:00');
+            const now = new Date();
+            let diff = eventDate - now;
+            if (diff < 0) {
+                document.getElementById('countdown').innerHTML = '🪄 <strong>Evento em andamento!</strong> 🪄';
+                return;
+            }
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            diff %= (1000 * 60 * 60 * 24);
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            diff %= (1000 * 60 * 60);
+            const minutes = Math.floor(diff / (1000 * 60));
+            const seconds = Math.floor(diff / 1000);
+            document.getElementById('countdown').innerHTML = `${days}d ${hours.toString().padStart(2, '0')}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
+        }
+
+        function startQuiz() {
+            currentName = document.getElementById('name').value.trim();
+            if (!currentName) {
+                alert('Por favor, digite seu nome!');
+                return;
+            }
+            document.getElementById('input-section').style.display = 'none';
+            document.getElementById('quiz-section').style.display = 'block';
+        }
+
+        function submitQuiz() {
+            let pointsH = [0, 0, 0, 0];
+            for (let i = 1; i <= 5; i++) {
+                const sel = document.querySelector(`input[name="qh${i}"]:checked`);
+                if (!sel) {
+                    alert('Responda todas as perguntas das casas!');
+                    return;
+                }
+                const val = sel.value;
+                if (val === 'A') pointsH[0]++;
+                else if (val === 'B') pointsH[1]++;
+                else if (val === 'C') pointsH[2]++;
+                else if (val === 'D') pointsH[3]++;
+            }
+            let pointsF = [0, 0];
+            for (let i = 1; i <= 5; i++) {
+                const sel = document.querySelector(`input[name="qf${i}"]:checked`);
+                if (!sel) {
+                    alert('Responda todas as perguntas das facções!');
+                    return;
+                }
+                if (sel.value === 'A') pointsF[0]++;
+                else pointsF[1]++;
+            }
+            const houses = ['Grifinória', 'Sonserina', 'Lufa-Lufa', 'Corvinal'];
+            const maxH = Math.max(...pointsH);
+            const houseIdx = pointsH.indexOf(maxH);
+            const house = houses[houseIdx];
+            const factions = ['Ordem da Fênix', 'Comensais da Morte'];
+            const maxF = Math.max(...pointsF);
+            const factionIdx = pointsF.indexOf(maxF);
+            const faction = factions[factionIdx];
+
+            const rsvps = getRsvps();
+            const lowerName = currentName.toLowerCase();
+            if (rsvps.some(r => r.name.toLowerCase() === lowerName)) {
+                alert('Este nome já fez RSVP! Escolha outro.');
+                return;
+            }
+            const hCount = rsvps.filter(r => r.house === house).length;
+            if (hCount >= 15) {
+                alert(`${house} está lotada! Tente o teste novamente.`);
+                return;
+            }
+            const fCount = rsvps.filter(r => r.faction === faction).length;
+            if (fCount >= 30) {
+                alert(`${faction} está lotada! Tente o teste novamente.`);
+                return;
+            }
+
+            rsvps.push({ name: currentName, house, faction, date: new Date().toISOString() });
+            localStorage.setItem('rsvps', JSON.stringify(rsvps));
+            updateSlots();
+            document.getElementById('confirm-house').textContent = house;
+            document.getElementById('confirm-faction').textContent = faction;
+            document.getElementById('quiz-section').style.display = 'none';
+            document.getElementById('confirm-section').style.display = 'block';
+        }
+
+        function resetForm() {
+            document.getElementById('name').value = '';
+            document.getElementById('confirm-section').style.display = 'none';
+            document.getElementById('input-section').style.display = 'block';
+            // Limpa radios
+            document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+        }
+
+        function adminReset() {
+            const pw = prompt('Senha do Admin:');
+            if (pw === 'hogwarts2027') {
+                localStorage.removeItem('rsvps');
+                updateSlots();
+                alert('🪄 Dados resetados com sucesso!');
+            } else {
+                alert('Senha incorreta!');
+            }
+        }
+
+        // Inicialização
+        window.addEventListener('load', () => {
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+            updateSlots();
+            document.getElementById('admin-btn').addEventListener('click', adminReset);
+        });
+    </script>
+</body>
+</html>
