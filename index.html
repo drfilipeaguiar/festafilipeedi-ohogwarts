@@ -2,686 +2,1487 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RSVP · Grande Evento Bruxo · Flutuante Rio</title>
-    <!-- Fontes Dark Wizard -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=MedievalSharp&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Grande Evento Bruxo · RSVP · Flutuante Rio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --navy: #0b0e1a;
+            --navy-light: #141a2e;
+            --gold: #d4a853;
+            --gold-light: #f0d080;
+            --gold-dark: #a67c2e;
+            --black: #05070c;
+            --white: #f5f0e8;
+            --gray: #8a8a9a;
+            --gryffindor: #b22222;
+            --hufflepuff: #cfa144;
+            --ravenclaw: #1a4a7a;
+            --slytherin: #1a6b3a;
+            --ordem: #3b82f6;
+            --comensais: #6b7280;
+            --success: #22c55e;
+            --warning: #eab308;
+            --danger: #ef4444;
+            --radius: 16px;
+            --radius-sm: 8px;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+        }
+        html {
+            scroll-behavior: smooth;
+        }
         body {
+            font-family: 'Inter', sans-serif;
+            background: var(--black);
+            color: var(--white);
             min-height: 100vh;
-            background: linear-gradient(145deg, #2b1a10 0%, #4a2c1a 15%, #7a4a2a 30%, #c97e4a 50%, #d4a05a 65%, #2c3e5e 85%, #0b1a2e 100%);
-            background-attachment: fixed;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-family: 'Cinzel', serif;
-            color: #f0e6d0;
-            padding: 1.5rem;
-            position: relative;
+            background-image: radial-gradient(ellipse at 50% 0%, #1a1a3a 0%, var(--black) 70%);
             overflow-x: hidden;
         }
-        /* Silhueta de Hogwarts (overlay) */
-        body::before {
+        .bg-sunset {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 0;
+            background: linear-gradient(180deg,
+                    #1a1a3a 0%,
+                    #2a1a3a 10%,
+                    #4a2a3a 20%,
+                    #8a4a3a 35%,
+                    #c47a4a 50%,
+                    #e8a060 65%,
+                    #f0c080 75%,
+                    #d4a853 85%,
+                    #2a2a4a 100%);
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        .bg-sunset::after {
             content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(180deg, transparent 0%, var(--black) 100%);
+        }
+        .silhueta {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 40vh;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 400'%3E%3Cpath d='M0 400 L0 280 Q80 260 120 280 Q160 220 200 250 L220 270 Q260 200 300 220 L320 240 Q380 160 420 190 L440 210 Q500 140 540 170 L560 190 Q620 120 660 150 L680 170 Q740 100 780 130 L800 140 L800 400 Z' fill='%230b1a2e' opacity='0.45'/%3E%3Cpath d='M200 250 L220 180 Q240 150 260 180 L280 220 Q300 200 320 220 L340 180 Q360 150 380 180 L400 220 L420 200 Q440 170 460 200 L480 240 L500 220 Q520 190 540 220 L560 250' fill='%230b1a2e' opacity='0.55'/%3E%3Cpath d='M140 280 L180 160 Q190 130 210 150 L230 200 Q250 180 270 200 L290 160 Q310 130 330 160 L350 200 L370 180 Q390 150 410 180 L430 220 L450 200 Q470 170 490 200 L510 230 L530 210 Q550 180 570 210 L590 250 L610 230 Q630 200 650 230 L670 260' fill='%230b1a2e' opacity='0.35'/%3E%3C/svg%3E") no-repeat bottom center;
-            background-size: cover;
-            pointer-events: none;
-            z-index: 0;
-        }
-        .container {
-            max-width: 1100px;
-            width: 100%;
-            background: rgba(10, 10, 20, 0.75);
-            backdrop-filter: blur(6px);
-            border: 2px solid #c8a45c;
-            box-shadow: 0 0 40px rgba(200, 164, 92, 0.3);
-            border-radius: 32px;
-            padding: 2.5rem;
-            position: relative;
+            height: 35vh;
             z-index: 1;
+            pointer-events: none;
+            opacity: 0.35;
         }
-        h1, h2, h3 {
+        .silhueta svg {
+            width: 100%;
+            height: 100%;
+            fill: #05070c;
+        }
+        #app {
+            position: relative;
+            z-index: 10;
+            max-width: 820px;
+            margin: 0 auto;
+            padding: 20px 16px 60px;
+        }
+        .header {
+            text-align: center;
+            padding: 30px 0 10px;
+            position: relative;
+        }
+        .header .emblema {
+            font-size: 42px;
+            margin-bottom: 4px;
+            display: block;
+            filter: drop-shadow(0 0 20px rgba(212, 168, 83, 0.3));
+        }
+        .header h1 {
             font-family: 'Cinzel', serif;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.7);
+            font-weight: 900;
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            color: var(--gold);
+            text-shadow: 0 0 40px rgba(212, 168, 83, 0.2), 0 2px 8px rgba(0, 0, 0, 0.8);
             letter-spacing: 2px;
+            line-height: 1.2;
         }
-        h1 {
-            font-size: 2.8rem;
-            color: #e3c27a;
-            text-align: center;
-            border-bottom: 2px solid #a67c3a;
-            padding-bottom: 0.5rem;
-            margin-bottom: 1.5rem;
+        .header h1 span {
+            display: block;
+            font-size: 0.55em;
+            font-weight: 600;
+            color: var(--gold-light);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-top: 4px;
         }
-        .subhead {
-            font-family: 'MedievalSharp', cursive;
-            font-size: 1.2rem;
-            text-align: center;
-            color: #d4b483;
-            margin-bottom: 2rem;
+        .header .sub {
+            font-size: 0.95rem;
+            color: var(--gray);
+            margin-top: 8px;
+            font-weight: 400;
+            letter-spacing: 1px;
         }
-        .countdown {
+        .header .sub strong {
+            color: var(--gold);
+        }
+        .countdown-wrap {
+            background: rgba(11, 14, 26, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 168, 83, 0.15);
+            border-radius: var(--radius);
+            padding: 20px 16px;
+            margin: 20px 0 24px;
             display: flex;
-            justify-content: center;
-            gap: 1.5rem;
             flex-wrap: wrap;
-            background: #0e1726;
-            padding: 1.5rem;
-            border-radius: 20px;
-            border: 1px solid #a67c3a;
-            margin-bottom: 2rem;
+            justify-content: center;
+            gap: 12px 24px;
+            box-shadow: var(--shadow);
         }
         .countdown-item {
             text-align: center;
+            min-width: 60px;
         }
-        .countdown-item span {
+        .countdown-item .num {
             font-family: 'Cinzel', serif;
-            font-size: 2.8rem;
-            display: block;
-            color: #f1d78c;
+            font-size: 2rem;
             font-weight: 700;
+            color: var(--gold);
+            display: block;
+            line-height: 1.2;
         }
-        .countdown-item small {
-            font-size: 0.9rem;
-            color: #b8a67a;
+        .countdown-item .label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--gray);
+            font-weight: 500;
         }
-        .info-section {
+        .countdown-item .label .small {
+            font-size: 0.6rem;
+        }
+        .aviso-top {
+            background: rgba(212, 168, 83, 0.08);
+            border-left: 3px solid var(--gold);
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            color: var(--gold-light);
+            margin: 0 0 24px;
+            line-height: 1.6;
+            text-align: center;
+        }
+        .aviso-top strong {
+            color: var(--gold);
+        }
+        .painel-vagas {
+            background: rgba(11, 14, 26, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 168, 83, 0.12);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 28px;
+            box-shadow: var(--shadow);
+        }
+        .painel-vagas h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            color: var(--gold);
+            text-align: center;
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+        }
+        .vagas-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin: 2rem 0;
+            gap: 12px;
         }
-        @media (max-width: 768px) {
-            .info-section { grid-template-columns: 1fr; }
+        .vaga-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-sm);
+            padding: 12px 14px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 6px;
         }
-        .card {
-            background: #111a2b;
-            border: 1px solid #6b5a3a;
-            border-radius: 20px;
-            padding: 1.5rem;
-            box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
+        .vaga-card .casa-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
         }
-        .card h3 {
-            color: #d4b483;
-            border-bottom: 1px solid #4a3a2a;
-            padding-bottom: 0.5rem;
-            margin-bottom: 1rem;
+        .vaga-card .casa-info .bolinha {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            flex-shrink: 0;
         }
-        .card p, .card address {
-            font-family: 'MedievalSharp', cursive;
-            font-size: 1.1rem;
-            line-height: 1.6;
-            color: #cfc6b0;
+        .vaga-card .vagas-num {
+            font-size: 0.85rem;
+            color: var(--gray);
         }
-        .card iframe {
-            width: 100%;
-            height: 220px;
-            border: 1px solid #4a3a2a;
-            border-radius: 12px;
-            margin-top: 0.5rem;
+        .vaga-card .vagas-num strong {
+            color: var(--white);
+            font-weight: 600;
         }
-        .btn {
-            background: linear-gradient(135deg, #ad8a4a, #7a5c2a);
-            border: none;
-            color: #0e1726;
+        .vaga-card .vagas-num .cheia {
+            color: var(--danger);
+        }
+        .vaga-card .vagas-num .espera {
+            color: var(--warning);
+        }
+        .vaga-card .vagas-num .livre {
+            color: var(--success);
+        }
+        .faccoes-status {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 0.85rem;
+            flex-wrap: wrap;
+        }
+        .faccoes-status span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .faccoes-status .badge-ordem {
+            color: var(--ordem);
+            font-weight: 600;
+        }
+        .faccoes-status .badge-comensais {
+            color: var(--comensais);
+            font-weight: 600;
+        }
+        .card-form {
+            background: rgba(11, 14, 26, 0.88);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 168, 83, 0.12);
+            border-radius: var(--radius);
+            padding: 28px 20px;
+            margin-bottom: 28px;
+            box-shadow: var(--shadow);
+        }
+        .card-form h2 {
             font-family: 'Cinzel', serif;
-            font-weight: 700;
-            padding: 0.8rem 2rem;
-            border-radius: 40px;
-            cursor: pointer;
-            transition: all 0.3s;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            font-size: 1.3rem;
+            color: var(--gold);
+            text-align: center;
+            margin-bottom: 6px;
         }
-        .btn:hover {
-            transform: scale(1.03);
-            box-shadow: 0 0 25px #c8a45c;
-            background: linear-gradient(135deg, #c8a45c, #9e7a3a);
-        }
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
+        .card-form .desc {
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
         }
         .form-group {
-            margin-bottom: 1.2rem;
+            margin-bottom: 16px;
         }
         .form-group label {
             display: block;
-            font-family: 'Cinzel', serif;
-            margin-bottom: 0.3rem;
-            color: #d4b483;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gray);
+            margin-bottom: 4px;
+            font-weight: 500;
         }
-        .form-group input, .form-group select {
+        .form-group input,
+        .form-group select {
             width: 100%;
-            padding: 0.7rem;
-            border-radius: 8px;
-            border: 1px solid #6b5a3a;
-            background: #0e1726;
-            color: #f0e6d0;
-            font-family: 'MedievalSharp', cursive;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-sm);
+            color: var(--white);
             font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: border 0.3s;
+            outline: none;
         }
-        .form-group input:focus {
-            outline: 2px solid #c8a45c;
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--gold);
+            background: rgba(212, 168, 83, 0.05);
         }
-        .quiz-section {
-            margin: 2rem 0;
-            background: #0e1726;
-            border-radius: 20px;
-            padding: 1.5rem;
-            border: 1px solid #6b5a3a;
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.25);
         }
-        .question {
+        .form-group select option {
+            background: var(--navy);
+            color: var(--white);
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 32px;
+            border: none;
+            border-radius: var(--radius-sm);
             font-family: 'Cinzel', serif;
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            color: #e3c27a;
-        }
-        .options-grid {
-            display: grid;
-            gap: 0.8rem;
-        }
-        .option-btn {
-            display: block;
-            width: 100%;
-            padding: 0.8rem 1rem;
-            border-radius: 12px;
-            border: 2px solid #4a3a2a;
-            background: #1a2438;
-            color: #f0e6d0;
-            font-family: 'MedievalSharp', cursive;
-            font-size: 1.05rem;
-            text-align: left;
+            font-weight: 700;
+            font-size: 1rem;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: 100%;
         }
-        .option-btn:hover {
-            border-color: #c8a45c;
-            background: #24304a;
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+            color: var(--black);
+            box-shadow: 0 4px 20px rgba(212, 168, 83, 0.25);
         }
-        .option-btn.selected {
-            border-color: #f1d78c;
-            background: #2e3e5a;
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(212, 168, 83, 0.35);
         }
-        .result-section {
-            margin: 2rem 0;
+        .btn-gold:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+        }
+        .btn-outline:hover {
+            background: rgba(212, 168, 83, 0.1);
+        }
+        .btn-danger {
+            background: linear-gradient(135deg, #7f1d1d, var(--danger));
+            color: white;
+        }
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(239, 68, 68, 0.3);
+        }
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.75rem;
+            width: auto;
+        }
+        .quiz-section .pergunta {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-sm);
+            padding: 16px 18px;
+            margin-bottom: 12px;
+            transition: border 0.3s;
+        }
+        .quiz-section .pergunta.ativa {
+            border-color: var(--gold);
+            background: rgba(212, 168, 83, 0.04);
+        }
+        .quiz-section .pergunta .q-text {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            color: var(--gold-light);
+            line-height: 1.4;
+        }
+        .quiz-section .pergunta .q-text .q-num {
+            color: var(--gold);
+            margin-right: 6px;
+        }
+        .quiz-section .pergunta .opcoes {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .quiz-section .pergunta .opcao {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 0.88rem;
+            border: 1px solid transparent;
+        }
+        .quiz-section .pergunta .opcao:hover {
+            background: rgba(212, 168, 83, 0.06);
+        }
+        .quiz-section .pergunta .opcao input[type="radio"] {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--gray);
+            border-radius: 50%;
+            flex-shrink: 0;
+            position: relative;
+            transition: border 0.2s;
+            cursor: pointer;
+        }
+        .quiz-section .pergunta .opcao input[type="radio"]:checked {
+            border-color: var(--gold);
+        }
+        .quiz-section .pergunta .opcao input[type="radio"]:checked::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 8px;
+            height: 8px;
+            background: var(--gold);
+            border-radius: 50%;
+        }
+        .quiz-section .pergunta .opcao.selecionada {
+            background: rgba(212, 168, 83, 0.08);
+            border-color: rgba(212, 168, 83, 0.2);
+        }
+        .quiz-progress {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+        .quiz-progress .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: background 0.3s;
+        }
+        .quiz-progress .dot.preenchida {
+            background: var(--gold);
+        }
+        .quiz-progress .dot.ativa {
+            background: var(--gold-light);
+            box-shadow: 0 0 12px rgba(212, 168, 83, 0.4);
+        }
+        .resultado-card {
+            background: rgba(11, 14, 26, 0.92);
+            backdrop-filter: blur(12px);
+            border: 2px solid var(--gold);
+            border-radius: var(--radius);
+            padding: 28px 20px;
+            text-align: center;
+            box-shadow: 0 0 60px rgba(212, 168, 83, 0.1);
+            margin-bottom: 28px;
+        }
+        .resultado-card .casa-grande {
+            font-family: 'Cinzel', serif;
+            font-size: 2.4rem;
+            font-weight: 900;
+            display: block;
+            margin: 6px 0;
+        }
+        .resultado-card .faccao {
+            font-size: 1.2rem;
+            font-weight: 600;
+            padding: 6px 20px;
+            border-radius: 40px;
+            display: inline-block;
+            margin: 8px 0;
+        }
+        .resultado-card .faccao.ordem {
+            color: var(--ordem);
+            border: 1px solid var(--ordem);
+            background: rgba(59, 130, 246, 0.1);
+        }
+        .resultado-card .faccao.comensais {
+            color: var(--comensais);
+            border: 1px solid var(--comensais);
+            background: rgba(107, 114, 128, 0.1);
+        }
+        .resultado-card .status-badge {
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 6px 24px;
+            border-radius: 40px;
+            display: inline-block;
+            margin: 10px 0 6px;
+        }
+        .resultado-card .status-badge.confirmado {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+        .resultado-card .status-badge.aguardando {
+            background: rgba(234, 179, 8, 0.15);
+            color: var(--warning);
+            border: 1px solid var(--warning);
+        }
+        .resultado-card .status-badge.esgotado {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+        .resultado-card .info-extra {
+            color: var(--gray);
+            font-size: 0.85rem;
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+        .admin-section {
+            background: rgba(11, 14, 26, 0.88);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 168, 83, 0.08);
+            border-radius: var(--radius);
+            padding: 24px 20px;
+            margin-top: 12px;
+            box-shadow: var(--shadow);
+        }
+        .admin-section h3 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+            font-size: 1rem;
+            text-align: center;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+        .admin-section .admin-login {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+        .admin-section .admin-login input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-sm);
+            padding: 10px 16px;
+            color: var(--white);
+            font-size: 0.9rem;
+            flex: 1;
+            min-width: 160px;
+            outline: none;
+        }
+        .admin-section .admin-login input:focus {
+            border-color: var(--gold);
+        }
+        .admin-section .admin-panel {
             display: none;
+            margin-top: 12px;
         }
-        .result-section.show {
+        .admin-section .admin-panel.ativo {
             display: block;
         }
-        .house-result {
-            font-size: 1.8rem;
-            font-weight: bold;
-            text-align: center;
-            padding: 1rem;
+        .admin-section .admin-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 14px;
+        }
+        .admin-section .lista-convidados {
+            max-height: 340px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: var(--radius-sm);
+            padding: 12px;
+            font-size: 0.8rem;
+        }
+        .admin-section .lista-convidados .convidado-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+        .admin-section .lista-convidados .convidado-item .nome {
+            font-weight: 600;
+            color: var(--white);
+        }
+        .admin-section .lista-convidados .convidado-item .casa-tag {
+            font-size: 0.7rem;
+            padding: 2px 8px;
             border-radius: 20px;
-            background: rgba(0,0,0,0.5);
-            border: 2px solid #c8a45c;
+            background: rgba(255, 255, 255, 0.05);
         }
-        .faction-result {
-            font-size: 1.5rem;
+        .admin-section .lista-convidados .convidado-item .status-tag {
+            font-size: 0.65rem;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        .admin-section .lista-convidados .convidado-item .status-tag.confirmado {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--success);
+        }
+        .admin-section .lista-convidados .convidado-item .status-tag.aguardando {
+            background: rgba(234, 179, 8, 0.15);
+            color: var(--warning);
+        }
+        .admin-section .lista-convidados .convidado-item .status-tag.esgotado {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+        }
+        .admin-section .sem-convidados {
             text-align: center;
-            margin: 1rem 0;
+            color: var(--gray);
+            padding: 20px 0;
+            font-size: 0.85rem;
         }
-        .seal {
-            display: inline-block;
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 4px solid #e3c27a;
-            background: radial-gradient(circle, #0e1726, #1a2438);
-            margin: 1rem auto;
-            animation: sealSpin 2s ease-in-out forwards;
-            position: relative;
+        .footer-aviso {
+            text-align: center;
+            padding: 32px 0 12px;
+            color: var(--gray);
+            font-size: 0.8rem;
+            line-height: 1.8;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            margin-top: 20px;
         }
-        .seal::after {
-            content: '⚡';
-            font-size: 3rem;
-            position: absolute;
-            top: 50%;
+        .footer-aviso strong {
+            color: var(--gold-light);
+        }
+        .footer-aviso .destaque {
+            color: var(--gold);
+        }
+        .toast {
+            position: fixed;
+            bottom: 20px;
             left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        @keyframes sealSpin {
-            0% { transform: rotate(0deg) scale(0.3); opacity: 0; }
-            50% { transform: rotate(360deg) scale(1.2); opacity: 1; }
-            100% { transform: rotate(720deg) scale(1); opacity: 1; }
-        }
-        .admin-panel {
-            display: none;
-            margin-top: 2rem;
-            background: #0e1726;
-            padding: 1.5rem;
-            border-radius: 20px;
-            border: 1px solid #a67c3a;
-        }
-        .admin-panel.show { display: block; }
-        .slot-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin: 1rem 0;
-        }
-        .slot-card {
-            background: #1a2438;
-            border-radius: 12px;
-            padding: 1rem;
-            text-align: center;
-            border: 1px solid #4a3a2a;
-        }
-        .slot-card h4 { color: #e3c27a; }
-        .slot-card .count { font-size: 1.8rem; color: #f1d78c; }
-        .footer-text {
-            font-family: 'MedievalSharp', cursive;
-            text-align: center;
-            margin-top: 2rem;
-            color: #a89a7a;
+            transform: translateX(-50%);
+            background: rgba(11, 14, 26, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--gold);
+            border-radius: var(--radius-sm);
+            padding: 14px 24px;
+            color: var(--gold-light);
             font-size: 0.9rem;
+            font-weight: 500;
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            pointer-events: none;
+            max-width: 90vw;
+            text-align: center;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.8);
         }
-        .hidden { display: none; }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+            pointer-events: auto;
+        }
+        .toast.erro {
+            border-color: var(--danger);
+            color: #fca5a5;
+        }
+        .toast.sucesso {
+            border-color: var(--success);
+            color: #86efac;
+        }
+        .hidden {
+            display: none !important;
+        }
+        @media (max-width: 600px) {
+            #app {
+                padding: 12px 10px 40px;
+            }
+            .vagas-grid {
+                grid-template-columns: 1fr;
+            }
+            .countdown-wrap {
+                gap: 8px 16px;
+                padding: 16px 12px;
+            }
+            .countdown-item .num {
+                font-size: 1.6rem;
+            }
+            .card-form {
+                padding: 20px 14px;
+            }
+            .quiz-section .pergunta {
+                padding: 12px 14px;
+            }
+            .resultado-card .casa-grande {
+                font-size: 1.8rem;
+            }
+            .admin-section .admin-login {
+                flex-direction: column;
+            }
+            .admin-section .admin-login input {
+                min-width: auto;
+            }
+            .faccoes-status {
+                gap: 12px;
+                flex-direction: column;
+                align-items: center;
+            }
+            .header h1 {
+                font-size: 1.6rem;
+            }
+            .btn {
+                padding: 12px 20px;
+                font-size: 0.85rem;
+            }
+        }
+        @media (max-width: 400px) {
+            .countdown-item {
+                min-width: 48px;
+            }
+            .countdown-item .num {
+                font-size: 1.3rem;
+            }
+            .countdown-item .label {
+                font-size: 0.6rem;
+            }
+        }
     </style>
 </head>
 <body>
-<div class="container">
-    <h1>⋆⫸ GRANDE EVENTO BRUXO ⫷⋆</h1>
-    <div class="subhead">Flutuante Rio · Urca · 16 de Abril de 2027 · 18:00 – 23:00</div>
 
-    <!-- CONTADOR REGRESSIVO -->
-    <div class="countdown" id="countdown">
-        <div class="countdown-item"><span id="cd-days">00</span><small>Dias</small></div>
-        <div class="countdown-item"><span id="cd-hours">00</span><small>Horas</small></div>
-        <div class="countdown-item"><span id="cd-minutes">00</span><small>Minutos</small></div>
-        <div class="countdown-item"><span id="cd-seconds">00</span><small>Segundos</small></div>
+    <div class="bg-sunset"></div>
+
+    <div class="silhueta">
+        <svg viewBox="0 0 1200 400" preserveAspectRatio="xMidYMax meet">
+            <path d="M0 400 L0 260 L20 250 L30 240 L50 245 L60 230 L80 220 L90 210 L110 215 L120 200 L140 195 L150 185 L170 190 L180 175 L200 170 L210 160 L230 165 L240 150 L260 145 L270 140 L290 148 L300 135 L320 130 L330 125 L350 132 L360 120 L380 115 L390 110 L410 118 L420 105 L440 100 L450 95 L470 105 L480 90 L500 85 L510 80 L530 90 L540 78 L560 72 L570 68 L590 78 L600 65 L620 60 L630 58 L650 68 L660 55 L680 50 L690 48 L710 58 L720 45 L740 40 L750 38 L770 48 L780 35 L800 30 L810 28 L830 38 L840 25 L860 20 L870 18 L890 28 L900 15 L920 12 L930 10 L950 20 L960 8 L980 5 L990 3 L1010 12 L1020 5 L1040 3 L1050 2 L1070 8 L1080 4 L1100 2 L1110 1 L1130 6 L1140 3 L1160 2 L1170 1 L1190 5 L1200 3 L1200 400 Z" fill="#05070c"/>
+            <path d="M0 400 L0 300 L30 290 L50 280 L70 285 L90 270 L110 260 L130 265 L150 250 L170 245 L190 250 L210 235 L230 225 L250 230 L270 215 L290 210 L310 215 L330 200 L350 195 L370 200 L390 185 L410 178 L430 183 L450 168 L470 162 L490 167 L510 152 L530 148 L550 153 L570 138 L590 132 L610 137 L630 122 L650 118 L670 123 L690 108 L710 102 L730 107 L750 92 L770 88 L790 93 L810 78 L830 72 L850 77 L870 62 L890 58 L910 63 L930 48 L950 42 L970 47 L990 32 L1010 28 L1030 33 L1050 18 L1070 12 L1090 17 L1110 8 L1130 5 L1150 10 L1170 4 L1190 8 L1200 6 L1200 400 Z" fill="#05070c" opacity="0.6"/>
+            <path d="M200 400 L200 320 L220 310 L240 315 L260 305 L280 310 L300 300 L320 305 L340 295 L360 300 L380 290 L400 295 L420 285 L440 290 L460 280 L480 285 L500 275 L520 280 L540 270 L560 275 L580 265 L600 270 L620 260 L640 265 L660 255 L680 260 L700 250 L720 255 L740 245 L760 250 L780 240 L800 245 L820 235 L840 240 L860 230 L880 235 L900 225 L920 230 L940 220 L960 225 L980 215 L1000 220 L1020 210 L1040 215 L1060 205 L1080 210 L1100 200 L1120 205 L1140 195 L1160 200 L1180 190 L1200 195 L1200 400 Z" fill="#05070c" opacity="0.3"/>
+            <path d="M100 400 L100 340 L130 330 L160 335 L190 325 L220 330 L250 320 L280 325 L310 315 L340 320 L370 310 L400 315 L430 305 L460 310 L490 300 L520 305 L550 295 L580 300 L610 290 L640 295 L670 285 L700 290 L730 280 L760 285 L790 275 L820 280 L850 270 L880 275 L910 265 L940 270 L970 260 L1000 265 L1030 255 L1060 260 L1090 250 L1120 255 L1150 245 L1180 250 L1200 245 L1200 400 Z" fill="#05070c" opacity="0.15"/>
+        </svg>
     </div>
 
-    <!-- INFORMAÇÕES -->
-    <div class="info-section">
-        <div class="card">
-            <h3>📍 Endereço & Mapa</h3>
-            <address>
-                <strong>Flutuante Rio</strong><br>
-                Av. Pasteur, 520 – Urca, Rio de Janeiro – RJ<br>
-                (Em frente ao Bondinho do Pão de Açúcar)
-            </address>
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3673.085575939684!2d-43.16730268503412!3d-22.950088684986105!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x99817e4f4d4b4f%3A0x4b4c4f4b4f4b4f4b!2sAv.%20Pasteur%2C%20520%20-%20Urca%2C%20Rio%20de%20Janeiro%20-%20RJ%2C%2022290-240!5e0!3m2!1spt-BR!2sbr!4v1680000000000" allowfullscreen loading="lazy"></iframe>
+    <div id="app">
+        <div class="header">
+            <span class="emblema">⚡</span>
+            <h1>Grande Evento Bruxo<span>Flutuante Rio · 2027</span></h1>
+            <p class="sub">⏳ <strong>16 de Abril de 2027</strong> · 18:00 · Pôr do Sol na Urca</p>
         </div>
-        <div class="card">
-            <h3>🚌 Translado Incluso</h3>
-            <p>Oferecemos translado gratuito saindo de pontos estratégicos do Rio (Centro, Zona Sul, Barra). Partida <strong>impreterivelmente</strong> às <strong>16:30</strong> para que todos apreciem o pôr do sol da Urca (17:45).<br><br>
-            ⚠️ <em>Pontualidade é mágica – não haverá tolerância para atrasados. O pôr do sol espera por ninguém.</em></p>
+
+        <div class="countdown-wrap" id="countdown">
+            <div class="countdown-item"><span class="num" id="cd-dias">00</span><span class="label">Dias</span></div>
+            <div class="countdown-item"><span class="num" id="cd-horas">00</span><span class="label">Horas</span></div>
+            <div class="countdown-item"><span class="num" id="cd-minutos">00</span><span class="label">Min</span></div>
+            <div class="countdown-item"><span class="num" id="cd-segundos">00</span><span class="label">Seg</span></div>
         </div>
-    </div>
 
-    <!-- FORMULÁRIO DE INSCRIÇÃO / RSVP -->
-    <div class="card" style="margin-bottom:2rem;">
-        <h3>✧ Confirme sua Presença ✧</h3>
-        <div class="form-group">
-            <label for="guestName">Nome do Convidado</label>
-            <input type="text" id="guestName" placeholder="Seu nome bruxo(a)..." required>
+        <div class="aviso-top">
+            ⚠️ <strong>ATENÇÃO:</strong> O translado para o Flutuante Rio sairá pontualmente às <strong>17:15</strong> da Urca.
+            Não se atrase — o pôr do sol não espera. Chegue cedo e garanta seu lugar no embarque! 🌅
         </div>
-        <button class="btn" id="startQuizBtn">Iniciar Teste do Chapéu Seletor</button>
-        <p id="formError" style="color:#c04040;margin-top:0.5rem;display:none;"></p>
-    </div>
 
-    <!-- QUIZ - 10 PERGUNTAS -->
-    <div class="quiz-section" id="quizSection" style="display:none;">
-        <div id="questionNumber" style="font-family:'MedievalSharp';color:#a89a7a;margin-bottom:0.5rem;">Pergunta 1/10</div>
-        <div class="question" id="questionText"></div>
-        <div class="options-grid" id="optionsContainer"></div>
-        <div style="margin-top:1.5rem;text-align:right;">
-            <button class="btn" id="nextQuestionBtn" disabled>Próxima ➜</button>
-        </div>
-    </div>
-
-    <!-- RESULTADO -->
-    <div class="result-section" id="resultSection">
-        <div class="house-result" id="houseResult"></div>
-        <div class="faction-result" id="factionResult"></div>
-        <div class="seal" id="sealAnim"></div>
-        <p style="text-align:center;color:#d4b483;font-family:'MedievalSharp';">✦ Sua presença está confirmada! ✦</p>
-        <p style="text-align:center;font-size:0.9rem;color:#a89a7a;">Guarde este momento. O selo é sua prova.</p>
-        <button class="btn" id="resetTestBtn" style="margin:1rem auto;display:block;">Fazer novo teste</button>
-    </div>
-
-    <!-- PAINEL ADMIN (VAGAS) -->
-    <div style="margin-top:2rem;text-align:center;">
-        <button class="btn" id="adminToggleBtn">⚙ Administração</button>
-    </div>
-    <div class="admin-panel" id="adminPanel">
-        <h3 style="color:#e3c27a;">⏣ Controle de Vagas</h3>
-        <div class="slot-grid" id="slotGrid"></div>
-        <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;">
-            <div>
-                <label for="adminPass">Senha Admin</label>
-                <input type="password" id="adminPass" placeholder="senha" style="padding:0.5rem;border-radius:8px;border:1px solid #6b5a3a;background:#0e1726;color:#f0e6d0;">
+        <div class="painel-vagas" id="painel-vagas">
+            <h2>📊 Vagas em Tempo Real</h2>
+            <div class="vagas-grid" id="vagas-grid">
+                <div class="vaga-card" data-casa="gryffindor">
+                    <span class="casa-info"><span class="bolinha" style="background:var(--gryffindor)"></span> Gryffindor</span>
+                    <span class="vagas-num"><strong id="vaga-gryffindor-conf">0</strong>/15 · <span id="vaga-gryffindor-espera" class="espera">0</span>/5 espera</span>
+                </div>
+                <div class="vaga-card" data-casa="hufflepuff">
+                    <span class="casa-info"><span class="bolinha" style="background:var(--hufflepuff)"></span> Hufflepuff</span>
+                    <span class="vagas-num"><strong id="vaga-hufflepuff-conf">0</strong>/15 · <span id="vaga-hufflepuff-espera" class="espera">0</span>/5 espera</span>
+                </div>
+                <div class="vaga-card" data-casa="ravenclaw">
+                    <span class="casa-info"><span class="bolinha" style="background:var(--ravenclaw)"></span> Ravenclaw</span>
+                    <span class="vagas-num"><strong id="vaga-ravenclaw-conf">0</strong>/15 · <span id="vaga-ravenclaw-espera" class="espera">0</span>/5 espera</span>
+                </div>
+                <div class="vaga-card" data-casa="slytherin">
+                    <span class="casa-info"><span class="bolinha" style="background:var(--slytherin)"></span> Sonserina</span>
+                    <span class="vagas-num"><strong id="vaga-slytherin-conf">0</strong>/15 · <span id="vaga-slytherin-espera" class="espera">0</span>/5 espera</span>
+                </div>
             </div>
-            <button class="btn" id="adminResetBtn">Resetar Vagas</button>
+            <div class="faccoes-status">
+                <span>⚔️ <span class="badge-ordem">Ordem da Fênix: <span id="total-ordem">0</span>/30</span></span>
+                <span>🐍 <span class="badge-comensais">Comensais da Morte: <span id="total-comensais">0</span>/30</span></span>
+            </div>
         </div>
-        <p id="adminMessage" style="color:#f1d78c;margin-top:0.5rem;"></p>
+
+        <div class="card-form" id="form-section">
+            <h2>🔮 Seu Chapéu Seletor</h2>
+            <p class="desc">Responda às 10 perguntas para descobrir sua Casa e Facção.</p>
+
+            <div class="form-group">
+                <label>Nome do Bruxo</label>
+                <input type="text" id="input-nome" placeholder="Seu nome completo..." maxlength="80" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label>E-mail</label>
+                <input type="email" id="input-email" placeholder="coruja@hogwarts.com" autocomplete="off">
+            </div>
+
+            <div id="quiz-container" class="hidden">
+                <div class="quiz-progress" id="quiz-progress"></div>
+                <div class="quiz-section" id="quiz-perguntas"></div>
+                <button class="btn btn-gold" id="btn-enviar-quiz" disabled>⭐ Revelar Minha Casa</button>
+            </div>
+        </div>
+
+        <div id="resultado-container" class="hidden resultado-card"></div>
+
+        <div class="admin-section" id="admin-section">
+            <h3>⚙️ Administração</h3>
+            <div class="admin-login">
+                <input type="password" id="admin-senha" placeholder="Senha do Diretor..." autocomplete="off">
+                <button class="btn btn-outline btn-sm" id="btn-admin-login">Acessar</button>
+            </div>
+            <div class="admin-panel" id="admin-panel">
+                <div class="admin-actions">
+                    <button class="btn btn-danger btn-sm" id="btn-admin-reset">🔄 Resetar Evento</button>
+                    <button class="btn btn-outline btn-sm" id="btn-admin-refresh">📋 Atualizar Lista</button>
+                </div>
+                <div class="lista-convidados" id="lista-convidados">
+                    <div class="sem-convidados">Nenhum convidado registrado ainda.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-aviso">
+            ✦ <strong class="destaque">Grande Evento Bruxo no Flutuante Rio</strong> ✦<br>
+            🧹 16 de Abril de 2027 · 18:00 · Urca, Rio de Janeiro<br>
+            ⏰ Translado às <strong>17:15</strong> · Pontualidade é magia · <span class="destaque">Pôr do sol exclusivo</span><br>
+            <span style="opacity:0.5;">© 2027 · Todos os bruxos bem-vindos</span>
+        </div>
     </div>
 
-    <div class="footer-text">★ 60 vagas confirmadas · 20 lista de espera · Ordem da Fênix (30) · Comensais da Morte (30) ★</div>
-</div>
+    <div class="toast" id="toast"></div>
 
-<script>
-    // ========== CONFIG ==========
-    const EVENT_DATE = new Date('2027-04-16T18:00:00-03:00'); // 16/04/2027 18:00 BRT
+    <script>
+        (function() {
+            'use strict';
 
-    // ========== CONTADOR REGRESSIVO ==========
-    function updateCountdown() {
-        const now = new Date();
-        let diff = EVENT_DATE - now;
-        if (diff < 0) diff = 0;
-        const d = Math.floor(diff / 86400000);
-        const h = Math.floor((diff % 86400000) / 3600000);
-        const m = Math.floor((diff % 3600000) / 60000);
-        const s = Math.floor((diff % 60000) / 1000);
-        document.getElementById('cd-days').textContent = String(d).padStart(2,'0');
-        document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
-        document.getElementById('cd-minutes').textContent = String(m).padStart(2,'0');
-        document.getElementById('cd-seconds').textContent = String(s).padStart(2,'0');
-    }
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
+            // ===== CONFIG =====
+            const EVENT_DATE = new Date('2027-04-16T18:00:00-03:00');
+            const ADMIN_PASSWORD = 'hogwarts2027';
+            const CONFIRMED_PER_HOUSE = 15;
+            const WAITING_PER_HOUSE = 5;
+            const MAX_ORDEM = 30;
+            const MAX_COMENSAIS = 30;
+            const HOUSES = ['gryffindor', 'hufflepuff', 'ravenclaw', 'slytherin'];
+            const HOUSE_NAMES = { gryffindor: 'Gryffindor', hufflepuff: 'Hufflepuff', ravenclaw: 'Corvinal',
+                slytherin: 'Sonserina' };
+            const HOUSE_COLORS = { gryffindor: '#b22222', hufflepuff: '#cfa144', ravenclaw: '#1a4a7a',
+                slytherin: '#1a6b3a' };
 
-    // ========== QUIZ - 10 PERGUNTAS ==========
-    const quiz = [
-        {
-            question: "Ao encontrar um grimório antigo que contém um feitiço perigoso mas poderoso, você:",
-            options: [
-                { text: "Estuda cuidadosamente com outros especialistas para entender seus riscos", casa: "corvinal", faccao: "ordem" },
-                { text: "Usa o feitiço para derrotar inimigos, mesmo que cause danos colaterais", casa: "sonserina", faccao: "comensal" },
-                { text: "Esconde o grimório em um local seguro para que ninguém o use", casa: "lufalufa", faccao: "ordem" },
-                { text: "Confronta diretamente o perigo, usando o feitiço para proteger inocentes", casa: "grifinoria", faccao: "ordem" }
-            ]
-        },
-        {
-            question: "Um colega está sendo humilhado publicamente por um professor injusto. Você:",
-            options: [
-                { text: "Intervém na hora, enfrentando o professor para defender seu colega", casa: "grifinoria", faccao: "ordem" },
-                { text: "Planeja uma vingança silenciosa e estratégica contra o professor", casa: "sonserina", faccao: "comensal" },
-                { text: "Oferece apoio ao colega em particular e o ajuda a superar a situação", casa: "lufalufa", faccao: "ordem" },
-                { text: "Analisa a situação e escreve um artigo anônimo para o jornal escolar", casa: "corvinal", faccao: "ordem" }
-            ]
-        },
-        {
-            question: "Você descobre que um amigo próximo está envolvido em um complô contra a escola. O que faz?",
-            options: [
-                { text: "Tenta convencê-lo a desistir, mas se ele não ouvir, denuncia às autoridades", casa: "grifinoria", faccao: "ordem" },
-                { text: "Apoia o amigo secretamente, pois a lealdade é mais importante que regras", casa: "sonserina", faccao: "comensal" },
-                { text: "Tenta entender os motivos do amigo e mediar uma solução pacífica", casa: "lufalufa", faccao: "ordem" },
-                { text: "Investiga por conta própria para descobrir a verdade antes de agir", casa: "corvinal", faccao: "ordem" }
-            ]
-        },
-        {
-            question: "Sua casa está perdendo a Copa Intercasas por detalhes. O que você faz?",
-            options: [
-                { text: "Treina incansavelmente e motiva os colegas com discursos inflamados", casa: "grifinoria", faccao: "ordem" },
-                { text: "Usa de artimanhas e pequenas sabotagens contra as outras casas", casa: "sonserina", faccao: "comensal" },
-                { text: "Oferece ajuda a todos os colegas, mesmo de outras casas, para melhorar o desempenho geral", casa: "lufalufa", faccao: "ordem" },
-                { text: "Estuda as regras da competição para encontrar brechas legítimas", casa: "corvinal", faccao: "ordem" }
-            ]
-        },
-        {
-            question: "Um evento mágico festival está sendo organizado, mas há divergências sobre o tema. Você:",
-            options: [
-                { text: "Propõe um tema que una todas as casas, mesmo que não seja sua primeira opção", casa: "lufalufa", faccao: "ordem" },
-                { text: "Impõe seu tema com argumentos persuasivos e influência política", casa: "sonserina", faccao: "comensal" },
-                { text: "Cria um comitê para votar democraticamente, com debate aberto", casa: "corvinal", faccao: "ordem" },
-                { text: "Assume a liderança e decide rapidamente, mesmo que cause atritos", casa: "grifinoria", faccao: "ordem" }
-            ]
-        },
-        {
-            question: "Você encontra um objeto mágico que concede desejos, mas com um preço oculto. Você:",
-            options: [
-                { text: "Usa o objeto para realizar um desejo altruísta, aceitando as consequências", casa: "grifinoria", faccao: "ordem" },
-                { text: "Estuda o objeto minuciosamente para entender o preço antes de decidir", casa: "corvinal", faccao: "ordem" },
-                { text: "Usa o objeto para benefício próprio, mas toma precauções para minimizar danos", casa: "sonserina", faccao: "comensal" },
-                { text: "Destrói o objeto imediatamente para que ninguém seja corrompido", casa: "lufalufa", faccao: "ordem" }
-            ]
-        },
-        {
-            question: "Na batalha final iminente, você precisa escolher seu papel:",
-            options: [
-                { text: "Linha de frente – proteger os mais fracos com coragem inabalável", casa: "grifinoria", faccao: "ordem" },
-                { text: "Estratégia – comandar tropas e usar táticas enganosas para vencer", casa: "sonserina", faccao: "comensal" },
-                { text: "Retaguarda – curar feridos e garantir que ninguém fique para trás", casa: "lufalufa", faccao: "ordem" },
-                { text: "Inteligência – analisar o inimigo e encontrar seu ponto fraco", casa: "corvinal", faccao: "ordem" }
-            ]
-        },
-        {
-            question: "Um estudante mais novo está sendo atormentado por valentões. Você:",
-            options: [
-                { text: "Enfrenta os valentões diretamente, mesmo em menor número", casa: "grifinoria", faccao: "ordem" },
-                { text: "Ensina o mais novo a se defender com feitiços úteis e astúcia", casa: "sonserina", faccao: "comensal" },
-                { text: "Conversa com os valentões em particular, tentando resolver pacificamente", casa: "lufalufa", faccao: "ordem" },
-                { text: "Cria um sistema de monitoramento para flagrar os valentões e denunciá-los", casa: "corvinal", faccao: "ordem" }
-            ]
-        },
-        {
-            question: "Seu time perdeu uma partida importante por um erro seu. Você:",
-            options: [
-                { text: "Assume a responsabilidade publicamente e promete treinar mais", casa: "grifinoria", faccao: "ordem" },
-                { text: "Culpa as circunstâncias e planeja uma revanche com vantagem secreta", casa: "sonserina", faccao: "comensal" },
-                { text: "Agradece aos companheiros pelo esforço e trabalha para melhorar o time", casa: "lufalufa", faccao: "ordem" },
-                { text: "Analisa o jogo gravado para identificar todos os erros e corrigi-los", casa: "corvinal", faccao: "ordem" }
-            ]
-        },
-        {
-            question: "Um segredo ancestral sobre a fundação de Hogwarts é revelado a você. O conhecimento pode abalar a ordem atual. Você:",
-            options: [
-                { text: "Revela o segredo para toda a comunidade, acreditando que a verdade liberta", casa: "grifinoria", faccao: "ordem" },
-                { text: "Usa o segredo como moeda de troca para conseguir poder e influência", casa: "sonserina", faccao: "comensal" },
-                { text: "Mantém o segredo para proteger a estabilidade da escola e seus alunos", casa: "lufalufa", faccao: "ordem" },
-                { text: "Estuda o segredo profundamente e publica uma tese acadêmica imparcial", casa: "corvinal", faccao: "ordem" }
-            ]
-        }
-    ];
+            // ===== PERGUNTAS =====
+            const PERGUNTAS = [{
+                q: 'Qual qualidade você mais valoriza em um bruxo?',
+                opts: [
+                    { text: 'Coragem para enfrentar o medo', casa: 'gryffindor', faccao: 'ordem' },
+                    { text: 'Lealdade inabalável aos amigos', casa: 'hufflepuff', faccao: 'ordem' },
+                    { text: 'Sabedoria e busca pelo conhecimento', casa: 'ravenclaw', faccao: 'ordem' },
+                    { text: 'Ambição e determinação para vencer', casa: 'slytherin', faccao: 'comensais' }
+                ]
+            }, {
+                q: 'Em uma batalha, qual seria sua principal arma?',
+                opts: [
+                    { text: 'Minha coragem e um feitiço de escudo', casa: 'gryffindor', faccao: 'ordem' },
+                    { text: 'Trabalho em equipe e proteção mútua', casa: 'hufflepuff', faccao: 'ordem' },
+                    { text: 'Estratégia e um feitiço bem elaborado', casa: 'ravenclaw', faccao: 'ordem' },
+                    { text: 'Poder puro e um feitiço das trevas', casa: 'slytherin', faccao: 'comensais' }
+                ]
+            }, {
+                q: 'O que faria se encontrasse um mapa do tesouro?',
+                opts: [
+                    { text: 'Convocaria amigos para explorar juntos', casa: 'gryffindor', faccao: 'ordem' },
+                    { text: 'Compartilharia o tesouro com quem precisa', casa: 'hufflepuff', faccao: 'ordem' },
+                    { text: 'Estudaria o mapa por meses antes de agir', casa: 'ravenclaw', faccao: 'ordem' },
+                    { text: 'Seguiria o mapa sozinho, sem deixar rastros', casa: 'slytherin', faccao: 'comensais' }
+                ]
+            }, {
+                q: 'Qual destes locais mais te atrai?',
+                opts: [
+                    { text: 'A torre da Gryffindor com a lareira crepitante', casa: 'gryffindor', faccao: 'ordem' },
+                    { text: 'As estufas de Herbologia com plantas mágicas', casa: 'hufflepuff', faccao: 'ordem' },
+                    { text: 'A biblioteca de Hogwarts com livros infinitos', casa: 'ravenclaw', faccao: 'ordem' },
+                    { text: 'A Masmorra onde segredos antigos sussurram', casa: 'slytherin', faccao: 'comensais' }
+                ]
+            }, {
+                q: 'Como você reage a uma injustiça?',
+                opts: [
+                    { text: 'Enfrento o agressor na hora, sem hesitar', casa: 'gryffindor', faccao: 'ordem' },
+                    { text: 'Defendo quietamente os fracos e oprimidos', casa: 'hufflepuff', faccao: 'ordem' },
+                    { text: 'Denuncio com provas e argumentos sólidos', casa: 'ravenclaw', faccao: 'ordem' },
+                    { text: 'Uso a injustiça a meu favor, silenciosamente', casa: 'slytherin', faccao: 'comensais' }
+                ]
+            }, {
+                q: 'Qual matéria de Hogwarts mais te interessa?',
+                opts: [
+                    { text: 'Defesa Contra as Artes das Trevas', casa: 'gryffindor', faccao: 'ordem' },
+                    { text: 'Trato das Criaturas Mágicas', casa: 'hufflepuff', faccao: 'ordem' },
+                    { text: 'Runas Antigas e Adivinhação', casa: 'ravenclaw', faccao: 'ordem' },
+                    { text: 'Poções Avançadas e Artes das Trevas', casa: 'slytherin', faccao: 'comensais' }
+                ]
+            }, {
+                q: 'O que você busca em um amigo?',
+                opts: [
+                    { text: 'Alguém que tenha coragem de me desafiar', casa: 'gryffindor', faccao: 'ordem' },
+                    { text: 'Alguém leal que nunca abandone o lado', casa: 'hufflepuff', faccao: 'ordem' },
+                    { text: 'Alguém com quem trocar conhecimentos', casa: 'ravenclaw', faccao: 'ordem' },
+                    { text: 'Alguém útil que possa me fortalecer', casa: 'slytherin', faccao: 'comensais' }
+                ]
+            }, {
+                q: 'Diante de um desafio impossível, você...',
+                opts: [
+                    { text: 'Avança mesmo sabendo que pode fracassar', casa: 'gryffindor', faccao: 'ordem' },
+                    { text: 'Busca ajuda e une forças com outros', casa: 'hufflepuff', faccao: 'ordem' },
+                    { text: 'Analisa cada detalhe até achar uma brecha', casa: 'ravenclaw', faccao: 'ordem' },
+                    { text: 'Encontra um atalho ou manipula o sistema', casa: 'slytherin', faccao: 'comensais' }
+                ]
+            }, {
+                q: 'Qual destes itens mágicos você escolheria?',
+                opts: [
+                    { text: 'A Espada de Gryffindor', casa: 'gryffindor', faccao: 'ordem' },
+                    { text: 'O Medalhão de Hufflepuff', casa: 'hufflepuff', faccao: 'ordem' },
+                    { text: 'O Diadema de Ravenclaw', casa: 'ravenclaw', faccao: 'ordem' },
+                    { text: 'O Medalhão de Sonserina', casa: 'slytherin', faccao: 'comensais' }
+                ]
+            }, {
+                q: 'Para você, o poder deve ser usado para...',
+                opts: [
+                    { text: 'Proteger os inocentes e lutar pelo bem', casa: 'gryffindor', faccao: 'ordem' },
+                    { text: 'Cuidar e servir à comunidade mágica', casa: 'hufflepuff', faccao: 'ordem' },
+                    { text: 'Descobrir verdades e expandir horizontes', casa: 'ravenclaw', faccao: 'ordem' },
+                    { text: 'Dominar e alcançar a grandeza pessoal', casa: 'slytherin', faccao: 'comensais' }
+                ]
+            }];
 
-    // ========== ESTADO DO QUIZ ==========
-    let currentQuestion = 0;
-    let answers = []; // {casa, faccao}
-    let selectedOption = null;
-    const guestNameInput = document.getElementById('guestName');
-    const startBtn = document.getElementById('startQuizBtn');
-    const quizSection = document.getElementById('quizSection');
-    const questionNumber = document.getElementById('questionNumber');
-    const questionText = document.getElementById('questionText');
-    const optionsContainer = document.getElementById('optionsContainer');
-    const nextBtn = document.getElementById('nextQuestionBtn');
-    const resultSection = document.getElementById('resultSection');
-    const houseResult = document.getElementById('houseResult');
-    const factionResult = document.getElementById('factionResult');
-    const seal = document.getElementById('sealAnim');
-    const formError = document.getElementById('formError');
-    const resetTestBtn = document.getElementById('resetTestBtn');
-
-    startBtn.addEventListener('click', () => {
-        const name = guestNameInput.value.trim();
-        if (!name) {
-            formError.textContent = 'Por favor, insira seu nome de convidado.';
-            formError.style.display = 'block';
-            return;
-        }
-        formError.style.display = 'none';
-        // inicia quiz
-        currentQuestion = 0;
-        answers = [];
-        selectedOption = null;
-        quizSection.style.display = 'block';
-        resultSection.classList.remove('show');
-        resultSection.style.display = 'none';
-        startBtn.disabled = true;
-        renderQuestion();
-    });
-
-    function renderQuestion() {
-        const q = quiz[currentQuestion];
-        questionNumber.textContent = `Pergunta ${currentQuestion+1}/10`;
-        questionText.textContent = q.question;
-        optionsContainer.innerHTML = '';
-        selectedOption = null;
-        nextBtn.disabled = true;
-        q.options.forEach((opt, idx) => {
-            const btn = document.createElement('button');
-            btn.className = 'option-btn';
-            btn.textContent = opt.text;
-            btn.dataset.index = idx;
-            btn.addEventListener('click', () => {
-                // remove selected
-                document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
-                btn.classList.add('selected');
-                selectedOption = idx;
-                nextBtn.disabled = false;
-            });
-            optionsContainer.appendChild(btn);
-        });
-    }
-
-    nextBtn.addEventListener('click', () => {
-        if (selectedOption === null) return;
-        const q = quiz[currentQuestion];
-        const chosen = q.options[selectedOption];
-        answers.push({ casa: chosen.casa, faccao: chosen.faccao });
-        currentQuestion++;
-        if (currentQuestion < quiz.length) {
-            renderQuestion();
-        } else {
-            finalizarQuiz();
-        }
-    });
-
-    function finalizarQuiz() {
-        quizSection.style.display = 'none';
-        // Calcular casa
-        const pontos = { grifinoria:0, sonserina:0, lufalufa:0, corvinal:0 };
-        let pontosOrdem = 0, pontosComensal = 0;
-        answers.forEach(a => {
-            pontos[a.casa]++;
-            if (a.faccao === 'ordem') pontosOrdem++;
-            else pontosComensal++;
-        });
-        // Determinar casa vencedora
-        let maxPts = 0;
-        let casaVencedora = '';
-        for (let [casa, pts] of Object.entries(pontos)) {
-            if (pts > maxPts) { maxPts = pts; casaVencedora = casa; }
-            else if (pts === maxPts) {
-                // desempate aleatório
-                casaVencedora = [casaVencedora, casa][Math.floor(Math.random()*2)];
-            }
-        }
-        // Mapear nome bonito
-        const nomes = { grifinoria:'Grifinória', sonserina:'Sonserina', lufalufa:'Lufa-Lufa', corvinal:'Corvinal' };
-        const casaNome = nomes[casaVencedora];
-        // Facção
-        const faccao = pontosOrdem >= pontosComensal ? 'Ordem da Fênix' : 'Comensais da Morte';
-        // Exibir resultado
-        houseResult.textContent = `🏠 ${casaNome}`;
-        factionResult.textContent = faccao;
-        resultSection.style.display = 'block';
-        setTimeout(() => resultSection.classList.add('show'), 50);
-        // Animação selo
-        seal.style.animation = 'none';
-        void seal.offsetHeight;
-        seal.style.animation = 'sealSpin 2s ease-in-out forwards';
-        // Salvar vaga
-        salvarVaga(casaVencedora, faccao, guestNameInput.value.trim());
-        // Atualizar painel admin
-        atualizarPainelAdmin();
-    }
-
-    // ========== VAGAS (LocalStorage) ==========
-    const VAGAS_KEY = 'eventoBruxoVagas';
-    const CONFIRMADOS_POR_CASA = 15;
-    const ESPERA_POR_CASA = 5;
-
-    function getVagas() {
-        let data = localStorage.getItem(VAGAS_KEY);
-        if (!data) {
-            data = {
-                grifinoria: { confirmados: 0, espera: [] },
-                sonserina: { confirmados: 0, espera: [] },
-                lufalufa: { confirmados: 0, espera: [] },
-                corvinal: { confirmados: 0, espera: [] }
+            // ===== STATE =====
+            let state = {
+                convidados: [],
+                adminLogado: false
             };
-            localStorage.setItem(VAGAS_KEY, JSON.stringify(data));
-            return data;
-        }
-        return JSON.parse(data);
-    }
 
-    function salvarVaga(casa, faccao, nome) {
-        let vagas = getVagas();
-        const casaKey = casa;
-        if (vagas[casaKey].confirmados < CONFIRMADOS_POR_CASA) {
-            vagas[casaKey].confirmados++;
-            // adicionar nome se quiser, mas apenas contagem
-        } else if (vagas[casaKey].espera.length < ESPERA_POR_CASA) {
-            vagas[casaKey].espera.push(nome);
-        } else {
-            // vagas esgotadas para esta casa (não deve ocorrer se lógica respeitar)
-            alert('Vagas esgotadas para esta casa!');
-        }
-        localStorage.setItem(VAGAS_KEY, JSON.stringify(vagas));
-    }
+            // ===== DOM REFS =====
+            const $ = (id) => document.getElementById(id);
+            const cdDias = $('cd-dias'),
+                cdHoras = $('cd-horas'),
+                cdMinutos = $('cd-minutos'),
+                cdSegundos = $('cd-segundos');
+            const inputNome = $('input-nome'),
+                inputEmail = $('input-email');
+            const quizContainer = $('quiz-container');
+            const quizProgress = $('quiz-progress');
+            const quizPerguntas = $('quiz-perguntas');
+            const btnEnviarQuiz = $('btn-enviar-quiz');
+            const resultadoContainer = $('resultado-container');
+            const adminSenha = $('admin-senha');
+            const btnAdminLogin = $('btn-admin-login');
+            const adminPanel = $('admin-panel');
+            const listaConvidados = $('lista-convidados');
+            const btnAdminReset = $('btn-admin-reset');
+            const btnAdminRefresh = $('btn-admin-refresh');
+            const toast = $('toast');
+            const vagasGrid = $('vagas-grid');
 
-    function atualizarPainelAdmin() {
-        const vagas = getVagas();
-        const slotGrid = document.getElementById('slotGrid');
-        slotGrid.innerHTML = '';
-        const nomes = { grifinoria:'Grifinória', sonserina:'Sonserina', lufalufa:'Lufa-Lufa', corvinal:'Corvinal' };
-        for (let [casa, info] of Object.entries(vagas)) {
-            const div = document.createElement('div');
-            div.className = 'slot-card';
-            div.innerHTML = `<h4>${nomes[casa]}</h4>
-                <div class="count">${info.confirmados}/${CONFIRMADOS_POR_CASA} confirmados</div>
-                <small>Espera: ${info.espera.length}/${ESPERA_POR_CASA}</small>`;
-            slotGrid.appendChild(div);
-        }
-    }
+            // ===== LOCALSTORAGE =====
+            function salvarState() {
+                try {
+                    localStorage.setItem('grande_evento_bruxo_convidados', JSON.stringify(state.convidados));
+                } catch (e) {}
+            }
 
-    // ========== ADMIN ==========
-    const adminToggleBtn = document.getElementById('adminToggleBtn');
-    const adminPanel = document.getElementById('adminPanel');
-    adminToggleBtn.addEventListener('click', () => {
-        adminPanel.classList.toggle('show');
-        if (adminPanel.classList.contains('show')) atualizarPainelAdmin();
-    });
+            function carregarState() {
+                try {
+                    const data = localStorage.getItem('grande_evento_bruxo_convidados');
+                    if (data) {
+                        state.convidados = JSON.parse(data);
+                        if (!Array.isArray(state.convidados)) state.convidados = [];
+                    }
+                } catch (e) { state.convidados = []; }
+            }
 
-    document.getElementById('adminResetBtn').addEventListener('click', () => {
-        const pass = document.getElementById('adminPass').value;
-        if (pass === 'hogwarts2027') {
-            localStorage.removeItem(VAGAS_KEY);
-            atualizarPainelAdmin();
-            document.getElementById('adminMessage').textContent = 'Vagas resetadas com sucesso!';
-        } else {
-            document.getElementById('adminMessage').textContent = 'Senha incorreta!';
-        }
-    });
+            // ===== TOAST =====
+            let toastTimeout = null;
 
-    // ========== RESET TESTE ==========
-    resetTestBtn.addEventListener('click', () => {
-        resultSection.classList.remove('show');
-        resultSection.style.display = 'none';
-        quizSection.style.display = 'none';
-        startBtn.disabled = false;
-        guestNameInput.value = '';
-    });
+            function mostrarToast(msg, tipo = 'info', duracao = 3200) {
+                toast.textContent = msg;
+                toast.className = 'toast';
+                if (tipo === 'erro') toast.classList.add('erro');
+                else if (tipo === 'sucesso') toast.classList.add('sucesso');
+                toast.classList.add('show');
+                if (toastTimeout) clearTimeout(toastTimeout);
+                toastTimeout = setTimeout(() => {
+                    toast.classList.remove('show');
+                }, duracao);
+            }
 
-    // Inicializar painel se já estiver aberto
-    // também atualizar na carga
-    document.addEventListener('DOMContentLoaded', () => {
-        atualizarPainelAdmin();
-    });
-</script>
+            // ===== COUNTDOWN =====
+            function atualizarCountdown() {
+                const agora = new Date();
+                const diff = EVENT_DATE - agora;
+                if (diff <= 0) {
+                    cdDias.textContent = '00';
+                    cdHoras.textContent = '00';
+                    cdMinutos.textContent = '00';
+                    cdSegundos.textContent = '00';
+                    return;
+                }
+                const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const horas = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutos = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const segundos = Math.floor((diff % (1000 * 60)) / 1000);
+                cdDias.textContent = String(dias).padStart(2, '0');
+                cdHoras.textContent = String(horas).padStart(2, '0');
+                cdMinutos.textContent = String(minutos).padStart(2, '0');
+                cdSegundos.textContent = String(segundos).padStart(2, '0');
+            }
+
+            // ===== QUIZ =====
+            let respostasQuiz = [];
+            let quizAtivo = false;
+
+            function initQuiz() {
+                respostasQuiz = new Array(PERGUNTAS.length).fill(null);
+                quizAtivo = true;
+                renderQuiz();
+                btnEnviarQuiz.disabled = true;
+            }
+
+            function renderQuiz() {
+                // progress
+                const total = PERGUNTAS.length;
+                let progressHTML = '';
+                for (let i = 0; i < total; i++) {
+                    let cls = 'dot';
+                    if (respostasQuiz[i] !== null) cls += ' preenchida';
+                    if (i === 0) cls += ' ativa';
+                    progressHTML += `<span class="${cls}" data-idx="${i}"></span>`;
+                }
+                quizProgress.innerHTML = progressHTML;
+
+                // perguntas
+                let pergHTML = '';
+                PERGUNTAS.forEach((p, idx) => {
+                    const selecionada = respostasQuiz[idx];
+                    let optsHTML = '';
+                    p.opts.forEach((o, oi) => {
+                        const sel = selecionada === oi ? ' selecionada' : '';
+                        const checked = selecionada === oi ? 'checked' : '';
+                        optsHTML += `
+                            <label class="opcao${sel}" data-q="${idx}" data-o="${oi}">
+                                <input type="radio" name="q${idx}" value="${oi}" ${checked}>
+                                <span>${o.text}</span>
+                            </label>
+                        `;
+                    });
+                    pergHTML += `
+                        <div class="pergunta ativa" data-idx="${idx}">
+                            <div class="q-text"><span class="q-num">${idx+1}.</span> ${p.q}</div>
+                            <div class="opcoes">${optsHTML}</div>
+                        </div>
+                    `;
+                });
+                quizPerguntas.innerHTML = pergHTML;
+
+                // event listeners nas opções
+                document.querySelectorAll('.opcao').forEach(el => {
+                    el.addEventListener('click', function(e) {
+                        const qIdx = parseInt(this.dataset.q);
+                        const oIdx = parseInt(this.dataset.o);
+                        if (isNaN(qIdx) || isNaN(oIdx)) return;
+                        // update radio
+                        const radio = this.querySelector('input[type="radio"]');
+                        if (radio) radio.checked = true;
+                        // update state
+                        respostasQuiz[qIdx] = oIdx;
+                        // update visual
+                        const parent = this.closest('.opcoes');
+                        parent.querySelectorAll('.opcao').forEach(opt => opt.classList.remove('selecionada'));
+                        this.classList.add('selecionada');
+                        // update progress dots
+                        renderProgressDots();
+                        // check if all answered
+                        const allAnswered = respostasQuiz.every(r => r !== null);
+                        btnEnviarQuiz.disabled = !allAnswered;
+                    });
+                });
+
+                // também escuta click no radio para pegar via label
+                document.querySelectorAll('.opcao input[type="radio"]').forEach(radio => {
+                    radio.addEventListener('change', function(e) {
+                        const label = this.closest('.opcao');
+                        if (label) label.click();
+                    });
+                });
+
+                renderProgressDots();
+            }
+
+            function renderProgressDots() {
+                const dots = quizProgress.querySelectorAll('.dot');
+                dots.forEach((dot, i) => {
+                    dot.classList.remove('preenchida', 'ativa');
+                    if (respostasQuiz[i] !== null) dot.classList.add('preenchida');
+                    if (i === 0) dot.classList.add('ativa');
+                });
+            }
+
+            // ===== SORTING =====
+            function calcularCasaEFaccao() {
+                const pontos = { gryffindor: 0, hufflepuff: 0, ravenclaw: 0, slytherin: 0 };
+                let pontosOrdem = 0,
+                    pontosComensais = 0;
+                PERGUNTAS.forEach((p, idx) => {
+                    const escolha = respostasQuiz[idx];
+                    if (escolha === null || escolha === undefined) return;
+                    const opt = p.opts[escolha];
+                    if (opt) {
+                        pontos[opt.casa] = (pontos[opt.casa] || 0) + 1;
+                        if (opt.faccao === 'ordem') pontosOrdem++;
+                        else if (opt.faccao === 'comensais') pontosComensais++;
+                    }
+                });
+                // casa: maior pontuação
+                let casa = 'gryffindor';
+                let maxPts = -1;
+                HOUSES.forEach(h => {
+                    if (pontos[h] > maxPts) {
+                        maxPts = pontos[h];
+                        casa = h;
+                    }
+                });
+                // facção: maioria simples
+                const faccao = pontosOrdem >= pontosComensais ? 'ordem' : 'comensais';
+                return { casa, faccao, pontos };
+            }
+
+            // ===== VAGAS =====
+            function contarVagas() {
+                const vagas = {};
+                HOUSES.forEach(h => {
+                    vagas[h] = { confirmados: 0, espera: 0 };
+                });
+                let totalOrdem = 0,
+                    totalComensais = 0;
+                state.convidados.forEach(c => {
+                    if (c.status === 'confirmado') {
+                        if (vagas[c.casa]) vagas[c.casa].confirmados++;
+                        if (c.faccao === 'ordem') totalOrdem++;
+                        else if (c.faccao === 'comensais') totalComensais++;
+                    } else if (c.status === 'aguardando') {
+                        if (vagas[c.casa]) vagas[c.casa].espera++;
+                    }
+                });
+                return { vagas, totalOrdem, totalComensais };
+            }
+
+            function atualizarPainelVagas() {
+                const data = contarVagas();
+                HOUSES.forEach(h => {
+                    const elConf = $(`vaga-${h}-conf`);
+                    const elEsp = $(`vaga-${h}-espera`);
+                    if (elConf) elConf.textContent = data.vagas[h].confirmados;
+                    if (elEsp) {
+                        elEsp.textContent = data.vagas[h].espera;
+                        elEsp.className = 'espera';
+                        if (data.vagas[h].espera >= WAITING_PER_HOUSE) {
+                            elEsp.style.color = 'var(--danger)';
+                        } else {
+                            elEsp.style.color = 'var(--warning)';
+                        }
+                    }
+                    // colorir o card se cheio
+                    const card = document.querySelector(`.vaga-card[data-casa="${h}"]`);
+                    if (card) {
+                        const total = data.vagas[h].confirmados + data.vagas[h].espera;
+                        const capacidade = CONFIRMED_PER_HOUSE + WAITING_PER_HOUSE;
+                        if (total >= capacidade) {
+                            card.style.borderColor = 'var(--danger)';
+                            card.style.opacity = '0.7';
+                        } else if (data.vagas[h].confirmados >= CONFIRMED_PER_HOUSE) {
+                            card.style.borderColor = 'var(--warning)';
+                            card.style.opacity = '0.85';
+                        } else {
+                            card.style.borderColor = 'rgba(255,255,255,0.06)';
+                            card.style.opacity = '1';
+                        }
+                    }
+                });
+                const elOrdem = $('total-ordem');
+                const elComensais = $('total-comensais');
+                if (elOrdem) elOrdem.textContent = data.totalOrdem;
+                if (elComensais) elComensais.textContent = data.totalComensais;
+            }
+
+            // ===== REGISTRAR =====
+            function registrarConvidado(nome, email, casa, faccao) {
+                const data = contarVagas();
+                const vagasCasa = data.vagas[casa];
+                const vagasOrdem = data.totalOrdem;
+                const vagasComensais = data.totalComensais;
+
+                let status = 'confirmado';
+                let motivo = '';
+
+                // verifica se casa já tem 15 confirmados
+                if (vagasCasa.confirmados >= CONFIRMED_PER_HOUSE) {
+                    // tenta lista de espera
+                    if (vagasCasa.espera < WAITING_PER_HOUSE) {
+                        status = 'aguardando';
+                        motivo = 'Casa lotada, você foi para a lista de espera.';
+                    } else {
+                        status = 'esgotado';
+                        motivo = 'Todas as vagas e lista de espera desta Casa estão cheias.';
+                        return { status, motivo, casa, faccao };
+                    }
+                } else if (faccao === 'ordem' && vagasOrdem >= MAX_ORDEM) {
+                    // facção ordem lotada
+                    if (vagasCasa.espera < WAITING_PER_HOUSE) {
+                        status = 'aguardando';
+                        motivo = 'Facção Ordem da Fênix lotada, você foi para a lista de espera.';
+                    } else {
+                        status = 'esgotado';
+                        motivo = 'Vagas esgotadas para esta facção e lista de espera.';
+                        return { status, motivo, casa, faccao };
+                    }
+                } else if (faccao === 'comensais' && vagasComensais >= MAX_COMENSAIS) {
+                    if (vagasCasa.espera < WAITING_PER_HOUSE) {
+                        status = 'aguardando';
+                        motivo = 'Facção Comensais da Morte lotada, você foi para a lista de espera.';
+                    } else {
+                        status = 'esgotado';
+                        motivo = 'Vagas esgotadas para esta facção e lista de espera.';
+                        return { status, motivo, casa, faccao };
+                    }
+                }
+
+                if (status === 'confirmado') {
+                    motivo = 'Vaga confirmada! Prepare sua varinha.';
+                } else if (status === 'aguardando') {
+                    motivo = motivo || 'Lista de espera ativada.';
+                }
+
+                const convidado = {
+                    id: Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+                    nome: nome.trim(),
+                    email: email.trim().toLowerCase(),
+                    casa: casa,
+                    faccao: faccao,
+                    status: status,
+                    timestamp: new Date().toISOString()
+                };
+                state.convidados.push(convidado);
+                salvarState();
+                atualizarPainelVagas();
+                return { status, motivo, casa, faccao, convidado };
+            }
+
+            // ===== MOSTRAR RESULTADO =====
+            function mostrarResultado(result) {
+                const corCasa = HOUSE_COLORS[result.casa] || '#d4a853';
+                const nomeCasa = HOUSE_NAMES[result.casa] || result.casa;
+                const faccaoLabel = result.faccao === 'ordem' ? 'Ordem da Fênix' : 'Comensais da Morte';
+                const faccaoClass = result.faccao === 'ordem' ? 'ordem' : 'comensais';
+                let statusLabel = '';
+                let statusClass = '';
+                if (result.status === 'confirmado') {
+                    statusLabel = '✅ CONFIRMADO';
+                    statusClass = 'confirmado';
+                } else if (result.status === 'aguardando') {
+                    statusLabel = '⏳ AGUARDANDO';
+                    statusClass = 'aguardando';
+                } else {
+                    statusLabel = '❌ ESGOTADO';
+                    statusClass = 'esgotado';
+                }
+
+                const emojiCasa = { gryffindor: '🦁', hufflepuff: '🦡', ravenclaw: '🦅', slytherin: '🐍' };
+                const emoji = emojiCasa[result.casa] || '⚡';
+
+                resultadoContainer.innerHTML = `
+                    <div style="font-size:3rem;margin-bottom:4px;">${emoji}</div>
+                    <div class="casa-grande" style="color:${corCasa};">${nomeCasa}</div>
+                    <div class="faccao ${faccaoClass}">${faccaoLabel}</div>
+                    <div class="status-badge ${statusClass}">${statusLabel}</div>
+                    <div class="info-extra">${result.motivo}</div>
+                    <div class="info-extra" style="margin-top:8px;font-size:0.8rem;color:var(--gray);">
+                        ✦ ${result.nome} · ${result.email} ✦
+                    </div>
+                    <button class="btn btn-outline btn-sm" style="margin-top:18px;width:auto;display:inline-block;" id="btn-novo-registro">
+                        🔄 Novo Registro
+                    </button>
+                `;
+                resultadoContainer.classList.remove('hidden');
+                document.getElementById('btn-novo-registro').addEventListener('click', function() {
+                    resetarFormulario();
+                });
+                // scroll
+                resultadoContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+
+            // ===== RESET FORM =====
+            function resetarFormulario() {
+                inputNome.value = '';
+                inputEmail.value = '';
+                respostasQuiz = new Array(PERGUNTAS.length).fill(null);
+                quizAtivo = false;
+                quizContainer.classList.add('hidden');
+                resultadoContainer.classList.add('hidden');
+                btnEnviarQuiz.disabled = true;
+                document.getElementById('form-section').scrollIntoView({ behavior: 'smooth' });
+            }
+
+            // ===== HANDLE SUBMIT =====
+            function handleSubmitQuiz() {
+                const nome = inputNome.value.trim();
+                const email = inputEmail.value.trim();
+                if (!nome) { mostrarToast('Digite seu nome bruxo.', 'erro'); return; }
+                if (!email || !email.includes('@')) { mostrarToast('Digite um e-mail válido.', 'erro'); return; }
+                if (respostasQuiz.some(r => r === null || r === undefined)) {
+                    mostrarToast('Responda todas as 10 perguntas do Chapéu Seletor.', 'erro');
+                    return;
+                }
+                // verificar se já existe
+                const emailLower = email.toLowerCase();
+                const jaExiste = state.convidados.some(c => c.email === emailLower);
+                if (jaExiste) {
+                    mostrarToast('Este e-mail já foi registrado. Use outro e-mail.', 'erro');
+                    return;
+                }
+
+                const resultado = calcularCasaEFaccao();
+                const reg = registrarConvidado(nome, email, resultado.casa, resultado.faccao);
+                if (reg.status === 'esgotado') {
+                    mostrarToast('Todas as vagas estão esgotadas. Tente novamente mais tarde.', 'erro');
+                    // mesmo assim mostra o resultado, mas sem registrar
+                    reg.nome = nome;
+                    reg.email = email;
+                    mostrarResultado(reg);
+                    return;
+                }
+                mostrarToast('Registro concluído com sucesso! 🎉', 'sucesso');
+                mostrarResultado({
+                    ...reg,
+                    nome: nome,
+                    email: email
+                });
+                // desabilita o form
+                inputNome.disabled = true;
+                inputEmail.disabled = true;
+                btnEnviarQuiz.disabled = true;
+                quizContainer.classList.add('hidden');
+                atualizarPainelVagas();
+            }
+
+            // ===== ADMIN =====
+            function adminLogin() {
+                const senha = adminSenha.value.trim();
+                if (senha === ADMIN_PASSWORD) {
+                    state.adminLogado = true;
+                    adminPanel.classList.add('ativo');
+                    adminSenha.value = '';
+                    mostrarToast('Acesso concedido, Diretor.', 'sucesso');
+                    renderAdminList();
+                } else {
+                    mostrarToast('Senha incorreta. Acesso negado.', 'erro');
+                }
+            }
+
+            function renderAdminList() {
+                if (!state.adminLogado) return;
+                if (state.convidados.length === 0) {
+                    listaConvidados.innerHTML = `<div class="sem-convidados">Nenhum convidado registrado ainda.</div>`;
+                    return;
+                }
+                let html = '';
+                // sorted by timestamp
+                const sorted = [...state.convidados].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                sorted.forEach(c => {
+                    const casaNome = HOUSE_NAMES[c.casa] || c.casa;
+                    const statusCls = c.status === 'confirmado' ? 'confirmado' : c.status === 'aguardando' ?
+                        'aguardando' : 'esgotado';
+                    const faccaoLabel = c.faccao === 'ordem' ? '⚔️ Ordem' : '🐍 Comensais';
+                    html += `
+                        <div class="convidado-item">
+                            <span class="nome">${c.nome}</span>
+                            <span style="color:var(--gray);font-size:0.75rem;">${c.email}</span>
+                            <span class="casa-tag" style="border-left:3px solid ${HOUSE_COLORS[c.casa] || '#888'};padding-left:6px;">
+                                ${casaNome} · ${faccaoLabel}
+                            </span>
+                            <span class="status-tag ${statusCls}">${c.status === 'confirmado' ? '✅ Confirmado' : c.status === 'aguardando' ? '⏳ Aguardando' : '❌ Esgotado'}</span>
+                        </div>
+                    `;
+                });
+                listaConvidados.innerHTML = html;
+            }
+
+            function adminReset() {
+                if (!state.adminLogado) return;
+                if (!confirm('⚠️ TEM CERTEZA? Isso apagará TODOS os registros do evento. Esta ação é irreversível!')) {
+                    return;
+                }
+                if (!confirm('🔥 Confirmação final: Resetar o Grande Evento Bruxo?')) return;
+                state.convidados = [];
+                salvarState();
+                atualizarPainelVagas();
+                renderAdminList();
+                resetarFormulario();
+                inputNome.disabled = false;
+                inputEmail.disabled = false;
+                mostrarToast('Evento resetado. Todas as vagas foram liberadas.', 'sucesso');
+            }
+
+            // ===== EVENT LISTENERS =====
+            btnEnviarQuiz.addEventListener('click', handleSubmitQuiz);
+
+            btnAdminLogin.addEventListener('click', adminLogin);
+            adminSenha.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') adminLogin();
+            });
+
+            btnAdminReset.addEventListener('click', adminReset);
+
+            btnAdminRefresh.addEventListener('click', function() {
+                if (state.adminLogado) {
+                    renderAdminList();
+                    atualizarPainelVagas();
+                    mostrarToast('Lista atualizada.', 'sucesso');
+                }
+            });
+
+            // input nome/email ativam quiz
+            function checkInputsForQuiz() {
+                const nome = inputNome.value.trim();
+                const email = inputEmail.value.trim();
+                if (nome.length >= 2 && email.includes('@') && !quizAtivo && !inputNome.disabled) {
+                    quizContainer.classList.remove('hidden');
+                    initQuiz();
+                } else if ((nome.length < 2 || !email.includes('@')) && quizAtivo && !inputNome.disabled) {
+                    quizContainer.classList.add('hidden');
+                    quizAtivo = false;
+                }
+            }
+            inputNome.addEventListener('input', checkInputsForQuiz);
+            inputEmail.addEventListener('input', checkInputsForQuiz);
+
+            // ===== INIT =====
+            carregarState();
+            atualizarCountdown();
+            setInterval(atualizarCountdown, 1000);
+            atualizarPainelVagas();
+
+            // Se já estiver logado (persistência simples via state)
+            // Verificar se admin já estava logado (não persiste, então ok)
+
+            console.log('🔮 Grande Evento Bruxo · Sistema de RSVP carregado.');
+            console.log(`📅 ${EVENT_DATE.toLocaleString('pt-BR')}`);
+            console.log(`🏠 ${CONFIRMED_PER_HOUSE} confirmados + ${WAITING_PER_HOUSE} espera por Casa`);
+            console.log(`⚔️ ${MAX_ORDEM} Ordem · 🐍 ${MAX_COMENSAIS} Comensais`);
+            console.log(`👥 ${state.convidados.length} convidados registrados.`);
+
+        })();
+    </script>
+
 </body>
 </html>
