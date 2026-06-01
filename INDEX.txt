@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RSVP - Grande Evento Bruxo</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=MedievalSharp&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #000; color: #d4af37; font-family: 'Cinzel', serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+header { text-align: center; padding: 20px; position: relative; width: 100%; }
+header h1 { font-size: 2rem; text-shadow: 0 0 10px #d4af37; }
+header p { font-size: 1.2rem; color: #b8860b; }
+#adminBtn { position: absolute; top: 10px; right: 10px; background: none; border: 1px solid #d4af37; color: #d4af37; padding: 5px 10px; cursor: pointer; font-family: 'Cinzel', serif; border-radius: 5px; }
+#adminBtn:hover { background: #d4af37; color: #000; }
+.countdown { display: flex; justify-content: center; gap: 20px; margin: 20px 0; flex-wrap: wrap; }
+.countdown-item { text-align: center; }
+.countdown-item span { display: block; font-size: 2rem; font-family: 'MedievalSharp', cursive; }
+.countdown-item small { font-size: 0.8rem; color: #b8860b; }
+#mapContainer { width: 90%; max-width: 600px; margin: 20px auto; }
+#mapContainer iframe { width: 100%; height: 300px; border: 2px solid #d4af37; border-radius: 10px; }
+.event-details { text-align: center; margin: 20px; font-size: 1rem; line-height: 1.8; }
+.event-details strong { color: #fff; }
+.section { width: 90%; max-width: 600px; margin: 20px auto; background: #001f3f; border: 2px solid #d4af37; border-radius: 10px; padding: 20px; }
+.section h2 { text-align: center; margin-bottom: 20px; color: #d4af37; text-shadow: 0 0 5px #d4af37; }
+.form-group { margin-bottom: 15px; }
+.form-group label { display: block; margin-bottom: 5px; font-size: 0.9rem; }
+.form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #d4af37; border-radius: 5px; background: #000; color: #d4af37; font-family: 'Cinzel', serif; }
+.form-group input:focus { outline: none; box-shadow: 0 0 10px #d4af37; }
+.quiz { margin: 20px 0; }
+.quiz-question { margin-bottom: 15px; }
+.quiz-question p { margin-bottom: 5px; font-weight: bold; }
+.quiz-question label { display: block; margin-left: 10px; font-size: 0.9rem; }
+.btn { display: block; width: 100%; padding: 10px; background: #d4af37; color: #000; border: none; border-radius: 5px; font-size: 1.2rem; font-family: 'Cinzel', serif; cursor: pointer; transition: 0.3s; }
+.btn:hover { background: #ffd700; box-shadow: 0 0 15px #d4af37; }
+.btn:disabled { background: #555; color: #888; cursor: not-allowed; }
+#confirmation { display: none; text-align: center; margin: 20px 0; }
+.seal { width: 100px; height: 100px; margin: 0 auto; background: #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: #000; animation: glow 1s infinite alternate; }
+@keyframes glow { from { box-shadow: 0 0 20px #d4af37; } to { box-shadow: 0 0 40px #ffd700; } }
+#vagasPanel { position: fixed; bottom: 20px; right: 20px; background: #001f3f; border: 2px solid #d4af37; border-radius: 10px; padding: 15px; width: 200px; font-size: 0.8rem; z-index: 1000; display: none; }
+#vagasPanel h3 { text-align: center; margin-bottom: 10px; font-size: 1rem; }
+#vagasPanel p { margin: 5px 0; display: flex; justify-content: space-between; }
+#vagasPanel .esgotado { color: #ff4444; }
+@media (max-width: 600px) {
+  header h1 { font-size: 1.5rem; }
+  .countdown-item span { font-size: 1.5rem; }
+  #vagasPanel { width: 150px; font-size: 0.7rem; }
+}
+</style>
+</head>
+<body>
+<header>
+  <button id="adminBtn" onclick="showAdmin()">⚙ Admin</button>
+  <h1>Grande Evento Bruxo</h1>
+  <p>16 de Abril de 2027</p>
+</header>
+
+<div class="countdown" id="countdown">
+  <div class="countdown-item"><span id="days">00</span><small>Dias</small></div>
+  <div class="countdown-item"><span id="hours">00</span><small>Horas</small></div>
+  <div class="countdown-item"><span id="minutes">00</span><small>Minutos</small></div>
+  <div class="countdown-item"><span id="seconds">00</span><small>Segundos</small></div>
+</div>
+
+<div class="event-details">
+  <p><strong>Data:</strong> 16/04/2027</p>
+  <p><strong>Horário:</strong> 18:30 às 22:30</p>
+  <p><strong>Local:</strong> Flutuante Rio</p>
+  <p><strong>Endereço:</strong> em frente ao 338 - Av. João Luiz Alves - Urca, Rio de Janeiro - RJ, 22291-190</p>
+</div>
+
+<div id="mapContainer">
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3673.045!2d-43.166!3d-22.951!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9982e4f6c3b9e5%3A0x5b6c7d8e9f0a1b2c!2sAv.%20Jo%C3%A3o%20Luiz%20Alves%2C%20338%20-%20Urca%2C%20Rio%20de%20Janeiro%20-%20RJ%2C%2022291-190!5e0!3m2!1spt-BR!2sbr!4v1234567890" allowfullscreen="" loading="lazy"></iframe>
+</div>
+
+<div class="section" id="rsvpSection">
+  <h2>RSVP - Confirme sua Presença</h2>
+  <form id="rsvpForm">
+    <div class="form-group">
+      <label for="nome">Nome do Convidado</label>
+      <input type="text" id="nome" name="nome" required placeholder="Seu nome completo">
+    </div>
+    <div class="form-group">
+      <label for="casa">Casa (opcional)</label>
+      <select id="casa">
+        <option value="">Selecione</option>
+        <option value="Grifinória">Grifinória</option>
+        <option value="Sonserina">Sonserina</option>
+        <option value="Lufa-Lufa">Lufa-Lufa</option>
+        <option value="Corvinal">Corvinal</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="faccao">Facção (opcional)</label>
+      <select id="faccao">
+        <option value="">Selecione</option>
+        <option value="Ordem da Fênix">Ordem da Fênix</option>
+        <option value="Comensais da Morte">Comensais da Morte</option>
+      </select>
+    </div>
+    <div class="quiz" id="quiz">
+      <h3>Teste do Chapéu Seletor</h3>
+      <div class="quiz-question">
+        <p>1. Qual qualidade você mais valoriza?</p>
+        <label><input type="radio" name="q1" value="0"> Coragem</label>
+        <label><input type="radio" name="q1" value="1"> Ambição</label>
+        <label><input type="radio" name="q1" value="2"> Lealdade</label>
+        <label><input type="radio" name="q1" value="3"> Inteligência</label>
+      </div>
+      <div class="quiz-question">
+        <p>2. O que você faria com uma poção do amor?</p>
+        <label><input type="radio" name="q2" value="0"> Usaria para o bem</label>
+        <label><input type="radio" name="q2" value="1"> Dominaria o mundo</label>
+        <label><input type="radio" name="q2" value="2"> Daria a um amigo</label>
+        <label><input type="radio" name="q2" value="3"> Estudaria seus efeitos</label>
+      </div>
+      <div class="quiz-question">
+        <p>3. Seu animal favorito?</p>
+        <label><input type="radio" name="q3" value="0"> Leão</label>
+        <label><input type="radio" name="q3" value="1"> Serpente</label>
+        <label><input type="radio" name="q3" value="2"> Texugo</label>
+        <label><input type="radio" name="q3" value="3"> Corvo</label>
+      </div>
+      <div class="quiz-question">
+        <p>4. Qual matéria você prefere?</p>
+        <label><input type="radio" name="q4" value="0"> Defesa Contra as Artes das Trevas</label>
+        <label><input type="radio" name="q4" value="1"> Poções</label>
+        <label><input type="radio" name="q4" value="2"> Herbologia</label>
+        <label><input type="radio" name="q4" value="3"> Transfiguração</label>
+      </div>
+      <div class="quiz-question">
+        <p>5. Como você lida com regras?</p>
+        <label><input type="radio" name="q5" value="0"> Sigo, mas questiono</label>
+        <label><input type="radio" name="q5" value="1"> Quebro se necessário</label>
+        <label><input type="radio" name="q5" value="2"> Sempre sigo</label>
+        <label><input type="radio" name="q5" value="3"> Analiso e decido</label>
+      </div>
+      <div class="quiz-question">
+        <p>6. O que te define melhor?</p>
+        <label><input type="radio" name="q6" value="0"> Ação</label>
+        <label><input type="radio" name="q6" value="1"> Estratégia</label>
+        <label><input type="radio" name="q6" value="2"> Amizade</label>
+        <label><input type="radio" name="q6" value="3"> Sabedoria</label>
+      </div>
+      <div class="quiz-question">
+        <p>7. Qual elemento você prefere?</p>
+        <label><input type="radio" name="q7" value="0"> Fogo</label>
+        <label><input type="radio" name="q7" value="1"> Água</label>
+        <label><input type="radio" name="q7" value="2"> Terra</label>
+        <label><input type="radio" name="q7" value="3"> Ar</label>
+      </div>
+      <div class="quiz-question">
+        <p>8. Seu maior medo?</p>
+        <label><input type="radio" name="q8" value="0"> Covardia</label>
+        <label><input type="radio" name="q8" value="1"> Fracasso</label>
+        <label><input type="radio" name="q8" value="2"> Solidão</label>
+        <label><input type="radio" name="q8" value="3"> Ignorância</label>
+      </div>
+      <div class="quiz-question">
+        <p>9. O que você levaria para uma ilha deserta?</p>
+        <label><input type="radio" name="q9" value="0"> Espada</label>
+        <label><input type="radio" name="q9" value="1"> Livro de feitiços</label>
+        <label><input type="radio" name="q9" value="2"> Um amigo</label>
+        <label><input type="radio" name="q9" value="3"> Um mapa</label>
+      </div>
+      <div class="quiz-question">
+        <p>10. Qual cor te atrai?</p>
+        <label><input type="radio" name="q10" value="0"> Vermelho</label>
+        <label><input type="radio" name="q10" value="1"> Verde</label>
+        <label><input type="radio" name="q10" value="2"> Amarelo</label>
+        <label><input type="radio" name="q10" value="3"> Azul</label>
+      </div>
+    </div>
+    <button type="submit" class="btn" id="submitBtn">Confirmar Presença</button>
+  </form>
+</div>
+
+<div id="confirmation">
+  <div class="seal">✓</div>
+  <h2>Presença Confirmada!</h2>
+  <p id="confMsg"></p>
+</div>
+
+<div id="vagasPanel">
+  <h3>Vagas</h3>
+  <p>Total: <span id="totalVagas">0</span>/60</p>
+  <p>Grifinória: <span id="gryffindorVagas">0</span>/15</p>
+  <p>Sonserina: <span id="slytherinVagas">0</span>/15</p>
+  <p>Lufa-Lufa: <span id="hufflepuffVagas">0</span>/15</p>
+  <p>Corvinal: <span id="ravenclawVagas">0</span>/15</p>
+  <p>Ordem da Fênix: <span id="ordemVagas">0</span>/30</p>
+  <p>Comensais da Morte: <span id="comensaisVagas">0</span>/30</p>
+</div>
+
+<script>
+// === DADOS INICIAIS ===
+const LIMITE_TOTAL = 60;
+const LIMITE_CASA = 15;
+const LIMITE_FACCAO = 30;
+const ADMIN_PASSWORD = 'hogwarts2027';
+const EVENT_DATE = new Date('2027-04-16T18:30:00-03:00'); // Horário de Brasília
+
+let convidados = JSON.parse(localStorage.getItem('convidados')) || [];
+
+function salvar() { localStorage.setItem('convidados', JSON.stringify(convidados)); }
+
+function atualizarPainel() {
+  const total = convidados.length;
+  document.getElementById('totalVagas').textContent = total;
+  const casas = { 'Grifinória':0, 'Sonserina':0, 'Lufa-Lufa':0, 'Corvinal':0 };
+  const faccoes = { 'Ordem da Fênix':0, 'Comensais da Morte':0 };
+  convidados.forEach(c => {
+    if (c.casa && casas[c.casa] !== undefined) casas[c.casa]++;
+    if (c.faccao && faccoes[c.faccao] !== undefined) faccoes[c.faccao]++;
+  });
+  document.getElementById('gryffindorVagas').textContent = casas['Grifinória'];
+  document.getElementById('slytherinVagas').textContent = casas['Sonserina'];
+  document.getElementById('hufflepuffVagas').textContent = casas['Lufa-Lufa'];
+  document.getElementById('ravenclawVagas').textContent = casas['Corvinal'];
+  document.getElementById('ordemVagas').textContent = faccoes['Ordem da Fênix'];
+  document.getElementById('comensaisVagas').textContent = faccoes['Comensais da Morte'];
+  // Destacar esgotados
+  document.querySelectorAll('#vagasPanel p').forEach(p => {
+    const span = p.querySelector('span');
+    if (span) {
+      const [atual, total] = span.textContent.split('/');
+      if (parseInt(atual) >= parseInt(total)) { span.classList.add('esgotado'); } else { span.classList.remove('esgotado'); }
+    }
+  });
+}
+
+// Função para sortear casa baseada no quiz
+function sortearCasa(respostas) {
+  const contagem = [0,0,0,0]; // [Grif, Sons, Lufa, Corv]
+  respostas.forEach(r => { if (r !== null) contagem[r]++; });
+  let max = Math.max(...contagem);
+  // Se empate, escolher aleatório entre as maiores
+  let indices = contagem.map((v,i) => v === max ? i : -1).filter(v => v !== -1);
+  const sorteado = indices[Math.floor(Math.random() * indices.length)];
+  const casas = ['Grifinória','Sonserina','Lufa-Lufa','Corvinal'];
+  return casas[sorteado];
+}
+
+// Contador regressivo
+function updateCountdown() {
+  const now = new Date();
+  const diff = EVENT_DATE - now;
+  if (diff <= 0) {
+    document.getElementById('countdown').innerHTML = '<h2>O evento já começou!</h2>';
+    return;
+  }
+  const days = Math.floor(diff / (1000*60*60*24));
+  const hours = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+  const minutes = Math.floor((diff % (1000*60*60)) / (1000*60));
+  const seconds = Math.floor((diff % (1000*60)) / 1000);
+  document.getElementById('days').textContent = String(days).padStart(2,'0');
+  document.getElementById('hours').textContent = String(hours).padStart(2,'0');
+  document.getElementById('minutes').textContent = String(minutes).padStart(2,'0');
+  document.getElementById('seconds').textContent = String(seconds).padStart(2,'0');
+}
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+// Submissão
+const form = document.getElementById('rsvpForm');
+form.addEventListener('submit', function(e) {
+  e.preventDefault();
+  // Coletar dados
+  const nome = document.getElementById('nome').value.trim();
+  const casaSelect = document.getElementById('casa').value;
+  const faccaoSelect = document.getElementById('faccao').value;
+  
+  // Validar nome duplicado
+  if (convidados.some(c => c.nome.toLowerCase() === nome.toLowerCase())) {
+    alert('Este nome já está registrado!');
+    return;
+  }
+  
+  // Verificar limites
+  if (convidados.length >= LIMITE_TOTAL) { alert('Todas as vagas esgotadas!'); return; }
+  if (casaSelect) {
+    const countCasa = convidados.filter(c => c.casa === casaSelect).length;
+    if (countCasa >= LIMITE_CASA) { alert(`Vagas para ${casaSelect} esgotadas!`); return; }
+  }
+  if (faccaoSelect) {
+    const countFaccao = convidados.filter(c => c.faccao === faccaoSelect).length;
+    if (countFaccao >= LIMITE_FACCAO) { alert(`Vagas para ${faccaoSelect} esgotadas!`); return; }
+  }
+  
+  // Coletar respostas do quiz
+  const respostas = [];
+  for (let i = 1; i <= 10; i++) {
+    const selected = document.querySelector(`input[name="q${i}"]:checked`);
+    respostas.push(selected ? parseInt(selected.value) : null);
+  }
+  
+  const casaSorteada = sortearCasa(respostas);
+  
+  // Adicionar
+  convidados.push({
+    nome: nome,
+    casa: casaSelect || casaSorteada,
+    faccao: faccaoSelect || 'Indefinido'
+  });
+  salvar();
+  atualizarPainel();
+  
+  // Exibir confirmação
+  document.getElementById('rsvpSection').style.display = 'none';
+  document.getElementById('confirmation').style.display = 'block';
+  document.getElementById('confMsg').textContent = `${nome}, você foi sorteado para a casa ${casaSorteada}!`;
+  
+  // Animação do selo
+  const seal = document.querySelector('.seal');
+  seal.style.animation = 'glow 1s infinite alternate';
+});
+
+// Admin reset
+function showAdmin() {
+  const pwd = prompt('Digite a senha de admin:');
+  if (pwd === ADMIN_PASSWORD) {
+    if (confirm('Tem certeza que deseja resetar todos os dados?')) {
+      localStorage.removeItem('convidados');
+      convidados = [];
+      atualizarPainel();
+      document.getElementById('rsvpSection').style.display = 'block';
+      document.getElementById('confirmation').style.display = 'none';
+      alert('Dados resetados com sucesso!');
+    }
+  } else {
+    alert('Senha incorreta!');
+  }
+}
+
+// Inicializar painel
+atualizarPainel();
+// Mostrar painel após 1 segundo
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('vagasPanel').style.display = 'block';
+});
+</script>
+</body>
+</html>
+1. Design & Estética:
+
+Tema 'Dark Wizard': Cores Azul Marinho (#001f3f), Dourado (#d4af37) e Preto (#000).
+Fundo: Gradiente radial elegante simulando o pôr do sol na Urca com silhuetas de Hogwarts no rodapé.
+Fontes: 'Cinzel' e 'MedievalSharp' (Google Fonts).
+Responsividade: Totalmente adaptado para celulares (mobile-first).
+
+2. Conteúdo e Informações:
+
+Título: 'O Grande Baile Bruxo no Rio'.
+Contador regressivo para 16/04/2027 às 18:00.
+Seção de Localização: Mapa do Flutuante Rio (Urca) e aviso sobre o serviço de translado incluso.
+Destaque: 'Chegada às 18:00 para o pôr do sol na Baía de Guanabara'.
+
+3. Lógica do RSVP (Chapéu Seletor):
+
+Formulário com campo de nome e um teste de 10 perguntas psicológicas/não óbvias (dilemas morais e legado).
+Gestão de Vagas: 15 vagas confirmadas + 5 vagas de lista de espera por Casa (Grifinória, Sonserina, Corvinal, Lufa-Lufa). Total: 60 confirmados e 20 em espera.
+Facções: Atribuição automática (30 Ordem da Fênix / 30 Comensais da Morte) baseada no perfil das respostas.
+Persistência: Salvar dados no LocalStorage para evitar nomes duplicados e manter o contador de vagas ativo no navegador.
+
+4. Administração e Confirmação:
+
+Botão discreto de 'Admin' para reset de dados (Senha: hogwarts2027).
+Selo animado de confirmação (coruja ou castelo) após o envio bem-sucedido."
+
+📁 Prompt para o README.md (Opcional, para documentar seu GitHub)
+"Crie um arquivo README.md profissional para o repositório 'festa-hogwarts-2027'. Explique que o projeto é um sistema de RSVP interativo para um evento temático no Flutuante Rio. Liste as tecnologias usadas (HTML5, CSS3, JS Vanilla), a lógica de triagem das Casas e Facções, e instruções de como ativar o GitHub Pages para hospedar o site gratuitamente."
