@@ -3,409 +3,685 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🪄 RSVP Bruxo 16/04/2027 🪄</title>
+    <title>RSVP · Grande Evento Bruxo · Flutuante Rio</title>
+    <!-- Fontes Dark Wizard -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=MedievalSharp&display=swap" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            margin: 0;
-            padding: 20px;
-            background: linear-gradient(to bottom, #001f3f, #000);
-            font-family: 'MedievalSharp', cursive;
-            color: #d4af37;
             min-height: 100vh;
-            line-height: 1.6;
+            background: linear-gradient(145deg, #2b1a10 0%, #4a2c1a 15%, #7a4a2a 30%, #c97e4a 50%, #d4a05a 65%, #2c3e5e 85%, #0b1a2e 100%);
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Cinzel', serif;
+            color: #f0e6d0;
+            padding: 1.5rem;
+            position: relative;
+            overflow-x: hidden;
         }
-        #header {
-            text-align: center;
-            padding: 20px;
-            background: #001f3f;
-            border-bottom: 5px solid #d4af37;
-            margin: -20px -20px 20px -20px;
+        /* Silhueta de Hogwarts (overlay) */
+        body::before {
+            content: '';
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40vh;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 400'%3E%3Cpath d='M0 400 L0 280 Q80 260 120 280 Q160 220 200 250 L220 270 Q260 200 300 220 L320 240 Q380 160 420 190 L440 210 Q500 140 540 170 L560 190 Q620 120 660 150 L680 170 Q740 100 780 130 L800 140 L800 400 Z' fill='%230b1a2e' opacity='0.45'/%3E%3Cpath d='M200 250 L220 180 Q240 150 260 180 L280 220 Q300 200 320 220 L340 180 Q360 150 380 180 L400 220 L420 200 Q440 170 460 200 L480 240 L500 220 Q520 190 540 220 L560 250' fill='%230b1a2e' opacity='0.55'/%3E%3Cpath d='M140 280 L180 160 Q190 130 210 150 L230 200 Q250 180 270 200 L290 160 Q310 130 330 160 L350 200 L370 180 Q390 150 410 180 L430 220 L450 200 Q470 170 490 200 L510 230 L530 210 Q550 180 570 210 L590 250 L610 230 Q630 200 650 230 L670 260' fill='%230b1a2e' opacity='0.35'/%3E%3C/svg%3E") no-repeat bottom center;
+            background-size: cover;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            background: rgba(10, 10, 20, 0.75);
+            backdrop-filter: blur(6px);
+            border: 2px solid #c8a45c;
+            box-shadow: 0 0 40px rgba(200, 164, 92, 0.3);
+            border-radius: 32px;
+            padding: 2.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        h1, h2, h3 {
+            font-family: 'Cinzel', serif;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.7);
+            letter-spacing: 2px;
         }
         h1 {
+            font-size: 2.8rem;
+            color: #e3c27a;
+            text-align: center;
+            border-bottom: 2px solid #a67c3a;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .subhead {
+            font-family: 'MedievalSharp', cursive;
+            font-size: 1.2rem;
+            text-align: center;
+            color: #d4b483;
+            margin-bottom: 2rem;
+        }
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            background: #0e1726;
+            padding: 1.5rem;
+            border-radius: 20px;
+            border: 1px solid #a67c3a;
+            margin-bottom: 2rem;
+        }
+        .countdown-item {
+            text-align: center;
+        }
+        .countdown-item span {
             font-family: 'Cinzel', serif;
-            font-size: 2.5em;
-            margin: 0;
-            text-shadow: 3px 3px 6px #000;
-            color: #d4af37;
-        }
-        #countdown {
-            font-size: 1.4em;
-            margin: 10px 0;
-            text-shadow: 1px 1px 3px #000;
-        }
-        #main {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        input, button {
-            font-family: inherit;
-            padding: 15px;
-            margin: 10px 5px;
-            border: 3px solid #d4af37;
-            background: #000;
-            color: #d4af37;
-            font-size: 1.1em;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        input:focus {
-            outline: none;
-            box-shadow: 0 0 10px #d4af37;
-        }
-        button:hover {
-            background: #001f3f;
-            box-shadow: 0 0 15px #d4af37;
-        }
-        .quiz-question {
-            margin: 25px 0;
-            padding: 20px;
-            background: rgba(0, 31, 63, 0.6);
-            border-left: 6px solid #d4af37;
-            border-radius: 5px;
-        }
-        .quiz-question h3 {
-            margin-top: 0;
-            color: #d4af37;
-            font-family: 'Cinzel', serif;
-        }
-        label {
+            font-size: 2.8rem;
             display: block;
-            margin: 12px 0;
-            cursor: pointer;
-            padding: 5px;
+            color: #f1d78c;
+            font-weight: 700;
         }
-        input[type="radio"] {
-            margin-right: 12px;
-            transform: scale(1.2);
+        .countdown-item small {
+            font-size: 0.9rem;
+            color: #b8a67a;
         }
-        #confirm-section {
-            text-align: center;
-            padding: 50px 20px;
-            border: 6px solid #d4af37;
-            background: rgba(0, 0, 0, 0.9);
-            border-radius: 15px;
-            animation: glow 2s infinite alternate;
-            margin-top: 20px;
-        }
-        #confirm-section h2 {
-            font-family: 'Cinzel', serif;
-            font-size: 2em;
-        }
-        #confirm-section strong {
-            color: #d4af37;
-            text-shadow: 2px 2px 4px #000;
-        }
-        @keyframes glow {
-            0% { box-shadow: 0 0 20px #d4af37; }
-            100% { box-shadow: 0 0 40px #d4af37, 0 0 60px #d4af37; }
-        }
-        .panel {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #001f3f;
-            padding: 25px;
-            border: 4px solid #d4af37;
-            border-radius: 12px;
-            max-width: 280px;
-            font-size: 1em;
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.6);
-            z-index: 1000;
-        }
-        .panel h4 {
-            margin-top: 0;
-            text-align: center;
-            font-family: 'Cinzel', serif;
-        }
-        .panel div {
-            margin: 8px 0;
-        }
-        .admin-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: none;
-            border: none;
-            color: #d4af37;
-            font-size: 2.2em;
-            cursor: pointer;
-            z-index: 1001;
-            text-shadow: 2px 2px 4px #000;
-            transition: transform 0.3s;
-        }
-        .admin-btn:hover {
-            transform: scale(1.2);
-            color: #fff;
+        .info-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
         }
         @media (max-width: 768px) {
-            body { padding: 10px; }
-            #header { margin: -10px -10px 20px; padding: 15px; }
-            h1 { font-size: 2em; }
-            #countdown { font-size: 1.2em; }
-            .panel { right: 10px; bottom: 10px; max-width: 220px; font-size: 0.9em; padding: 20px; }
-            .admin-btn { top: 10px; right: 10px; font-size: 1.8em; }
-            input, button { width: 100%; margin: 10px 0; }
+            .info-section { grid-template-columns: 1fr; }
         }
+        .card {
+            background: #111a2b;
+            border: 1px solid #6b5a3a;
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
+        }
+        .card h3 {
+            color: #d4b483;
+            border-bottom: 1px solid #4a3a2a;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .card p, .card address {
+            font-family: 'MedievalSharp', cursive;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #cfc6b0;
+        }
+        .card iframe {
+            width: 100%;
+            height: 220px;
+            border: 1px solid #4a3a2a;
+            border-radius: 12px;
+            margin-top: 0.5rem;
+        }
+        .btn {
+            background: linear-gradient(135deg, #ad8a4a, #7a5c2a);
+            border: none;
+            color: #0e1726;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            padding: 0.8rem 2rem;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        .btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 25px #c8a45c;
+            background: linear-gradient(135deg, #c8a45c, #9e7a3a);
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        .form-group label {
+            display: block;
+            font-family: 'Cinzel', serif;
+            margin-bottom: 0.3rem;
+            color: #d4b483;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.7rem;
+            border-radius: 8px;
+            border: 1px solid #6b5a3a;
+            background: #0e1726;
+            color: #f0e6d0;
+            font-family: 'MedievalSharp', cursive;
+            font-size: 1rem;
+        }
+        .form-group input:focus {
+            outline: 2px solid #c8a45c;
+        }
+        .quiz-section {
+            margin: 2rem 0;
+            background: #0e1726;
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid #6b5a3a;
+        }
+        .question {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #e3c27a;
+        }
+        .options-grid {
+            display: grid;
+            gap: 0.8rem;
+        }
+        .option-btn {
+            display: block;
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border-radius: 12px;
+            border: 2px solid #4a3a2a;
+            background: #1a2438;
+            color: #f0e6d0;
+            font-family: 'MedievalSharp', cursive;
+            font-size: 1.05rem;
+            text-align: left;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .option-btn:hover {
+            border-color: #c8a45c;
+            background: #24304a;
+        }
+        .option-btn.selected {
+            border-color: #f1d78c;
+            background: #2e3e5a;
+        }
+        .result-section {
+            margin: 2rem 0;
+            display: none;
+        }
+        .result-section.show {
+            display: block;
+        }
+        .house-result {
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-align: center;
+            padding: 1rem;
+            border-radius: 20px;
+            background: rgba(0,0,0,0.5);
+            border: 2px solid #c8a45c;
+        }
+        .faction-result {
+            font-size: 1.5rem;
+            text-align: center;
+            margin: 1rem 0;
+        }
+        .seal {
+            display: inline-block;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid #e3c27a;
+            background: radial-gradient(circle, #0e1726, #1a2438);
+            margin: 1rem auto;
+            animation: sealSpin 2s ease-in-out forwards;
+            position: relative;
+        }
+        .seal::after {
+            content: '⚡';
+            font-size: 3rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        @keyframes sealSpin {
+            0% { transform: rotate(0deg) scale(0.3); opacity: 0; }
+            50% { transform: rotate(360deg) scale(1.2); opacity: 1; }
+            100% { transform: rotate(720deg) scale(1); opacity: 1; }
+        }
+        .admin-panel {
+            display: none;
+            margin-top: 2rem;
+            background: #0e1726;
+            padding: 1.5rem;
+            border-radius: 20px;
+            border: 1px solid #a67c3a;
+        }
+        .admin-panel.show { display: block; }
+        .slot-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .slot-card {
+            background: #1a2438;
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid #4a3a2a;
+        }
+        .slot-card h4 { color: #e3c27a; }
+        .slot-card .count { font-size: 1.8rem; color: #f1d78c; }
+        .footer-text {
+            font-family: 'MedievalSharp', cursive;
+            text-align: center;
+            margin-top: 2rem;
+            color: #a89a7a;
+            font-size: 0.9rem;
+        }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
-    <button id="admin-btn" class="admin-btn" title="Admin">🔑</button>
-    
-    <header id="header">
-        <h1>🪄 RSVP Bruxo 16/04/2027 🪄</h1>
-        <div id="countdown">Carregando...</div>
-        <p>19h às 23h - Prepare sua varinha!</p>
-    </header>
+<div class="container">
+    <h1>⋆⫸ GRANDE EVENTO BRUXO ⫷⋆</h1>
+    <div class="subhead">Flutuante Rio · Urca · 16 de Abril de 2027 · 18:00 – 23:00</div>
 
-    <div id="main">
-        <div id="input-section">
-            <h2 style="text-align: center; font-family: 'Cinzel', serif;">Digite seu nome, bruxo(a):</h2>
-            <input type="text" id="name" placeholder="Ex: Harry Potter" maxlength="50">
-            <button onclick="startQuiz()">🪄 Iniciar Teste do Chapéu Seletor 🪄</button>
+    <!-- CONTADOR REGRESSIVO -->
+    <div class="countdown" id="countdown">
+        <div class="countdown-item"><span id="cd-days">00</span><small>Dias</small></div>
+        <div class="countdown-item"><span id="cd-hours">00</span><small>Horas</small></div>
+        <div class="countdown-item"><span id="cd-minutes">00</span><small>Minutos</small></div>
+        <div class="countdown-item"><span id="cd-seconds">00</span><small>Segundos</small></div>
+    </div>
+
+    <!-- INFORMAÇÕES -->
+    <div class="info-section">
+        <div class="card">
+            <h3>📍 Endereço & Mapa</h3>
+            <address>
+                <strong>Flutuante Rio</strong><br>
+                Av. Pasteur, 520 – Urca, Rio de Janeiro – RJ<br>
+                (Em frente ao Bondinho do Pão de Açúcar)
+            </address>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3673.085575939684!2d-43.16730268503412!3d-22.950088684986105!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x99817e4f4d4b4f%3A0x4b4c4f4b4f4b4f4b!2sAv.%20Pasteur%2C%20520%20-%20Urca%2C%20Rio%20de%20Janeiro%20-%20RJ%2C%2022290-240!5e0!3m2!1spt-BR!2sbr!4v1680000000000" allowfullscreen loading="lazy"></iframe>
         </div>
-
-        <div id="quiz-section" style="display: none;">
-            <h2 style="text-align: center; font-family: 'Cinzel', serif;">Teste do Chapéu Seletor</h2>
-            <p style="text-align: center;">Responda às 10 perguntas para descobrir sua Casa e Facção.</p>
-
-            <!-- Perguntas Casas -->
-            <div class="quiz-question">
-                <h3>1. Qual é a sua maior virtude?</h3>
-                <label><input type="radio" name="qh1" value="A"> A) Coragem inabalável</label>
-                <label><input type="radio" name="qh1" value="B"> B) Astúcia e ambição</label>
-                <label><input type="radio" name="qh1" value="C"> C) Lealdade e trabalho duro</label>
-                <label><input type="radio" name="qh1" value="D"> D) Inteligência e sabedoria</label>
-            </div>
-            <div class="quiz-question">
-                <h3>2. Como você enfrentaria um dragão?</h3>
-                <label><input type="radio" name="qh2" value="A"> A) Atacando de frente</label>
-                <label><input type="radio" name="qh2" value="B"> B) Usando truques engenhosos</label>
-                <label><input type="radio" name="qh2" value="C"> C) Trabalhando em equipe</label>
-                <label><input type="radio" name="qh2" value="D"> D) Estudando suas fraquezas</label>
-            </div>
-            <div class="quiz-question">
-                <h3>3. Qual ambiente Hogwarts te atrai mais?</h3>
-                <label><input type="radio" name="qh3" value="A"> A) Campos de quadribol</label>
-                <label><input type="radio" name="qh3" value="B"> B) Masmorras frias</label>
-                <label><input type="radio" name="qh3" value="C"> C) Cozinha aconchegante</label>
-                <label><input type="radio" name="qh3" value="D"> D) Torre de astronomia</label>
-            </div>
-            <div class="quiz-question">
-                <h3>4. Seu patrono seria?</h3>
-                <label><input type="radio" name="qh4" value="A"> A) Leão ou fênix</label>
-                <label><input type="radio" name="qh4" value="B"> B) Serpente</label>
-                <label><input type="radio" name="qh4" value="C"> C) Texugo</label>
-                <label><input type="radio" name="qh4" value="D"> D) Águia</label>
-            </div>
-            <div class="quiz-question">
-                <h3>5. O que mais te motiva?</h3>
-                <label><input type="radio" name="qh5" value="A"> A) Proteger os fracos</label>
-                <label><input type="radio" name="qh5" value="B"> B) Alcançar grandeza pessoal</label>
-                <label><input type="radio" name="qh5" value="C"> C) Ser leal aos amigos</label>
-                <label><input type="radio" name="qh5" value="D"> D) Descobrir novos conhecimentos</label>
-            </div>
-
-            <!-- Perguntas Facções -->
-            <div class="quiz-question">
-                <h3>6. A pureza de sangue é essencial para a verdadeira magia?</h3>
-                <label><input type="radio" name="qf1" value="A"> A) Não</label>
-                <label><input type="radio" name="qf1" value="B"> B) Sim</label>
-            </div>
-            <div class="quiz-question">
-                <h3>7. Você usaria magia das trevas para um bem maior?</h3>
-                <label><input type="radio" name="qf2" value="A"> A) Não</label>
-                <label><input type="radio" name="qf2" value="B"> B) Sim</label>
-            </div>
-            <div class="quiz-question">
-                <h3>8. Lealdade absoluta a um líder supremo é necessária?</h3>
-                <label><input type="radio" name="qf3" value="A"> A) Não</label>
-                <label><input type="radio" name="qf3" value="B"> B) Sim</label>
-            </div>
-            <div class="quiz-question">
-                <h3>9. Trouxas devem ser controlados pelos bruxos?</h3>
-                <label><input type="radio" name="qf4" value="A"> A) Não</label>
-                <label><input type="radio" name="qf4" value="B"> B) Sim</label>
-            </div>
-            <div class="quiz-question">
-                <h3>10. A Ordem da Fênix é tola por desafiar o poder estabelecido?</h3>
-                <label><input type="radio" name="qf5" value="A"> A) Não, eles estão certos</label>
-                <label><input type="radio" name="qf5" value="B"> B) Sim, o poder é tudo</label>
-            </div>
-
-            <button onclick="submitQuiz()" style="width: 100%; font-size: 1.3em;">🪄 Confirmar Casa e Facção 🪄</button>
-        </div>
-
-        <div id="confirm-section" style="display: none;">
-            <h2>🎓 RSVP Confirmado com Sucesso! 🪄</h2>
-            <p><strong>Sua Casa:</strong> <span id="confirm-house"></span></p>
-            <p><strong>Sua Facção:</strong> <span id="confirm-faction"></span></p>
-            <p>Te vemos dia <strong>16/04/2027</strong> às <strong>19h</strong>! Não se atrase, bruxo(a)! 🏰🔮</p>
-            <button onclick="resetForm()">🪄 Novo RSVP 🪄</button>
+        <div class="card">
+            <h3>🚌 Translado Incluso</h3>
+            <p>Oferecemos translado gratuito saindo de pontos estratégicos do Rio (Centro, Zona Sul, Barra). Partida <strong>impreterivelmente</strong> às <strong>16:30</strong> para que todos apreciem o pôr do sol da Urca (17:45).<br><br>
+            ⚠️ <em>Pontualidade é mágica – não haverá tolerância para atrasados. O pôr do sol espera por ninguém.</em></p>
         </div>
     </div>
 
-    <div id="slots-panel" class="panel">
-        <h4>🪄 Vagas Restantes 🪄</h4>
-        <div><strong>Casas:</strong></div>
-        <div>Grifinória: <span id="slots-grif">15</span></div>
-        <div>Sonserina: <span id="slots-son">15</span></div>
-        <div>Lufa-Lufa: <span id="slots-lufa">15</span></div>
-        <div>Corvinal: <span id="slots-corv">15</span></div>
-        <div><strong>Fações:</strong></div>
-        <div>Ordem da Fênix: <span id="slots-ordem">30</span></div>
-        <div>Comensais da Morte: <span id="slots-comens">30</span></div>
+    <!-- FORMULÁRIO DE INSCRIÇÃO / RSVP -->
+    <div class="card" style="margin-bottom:2rem;">
+        <h3>✧ Confirme sua Presença ✧</h3>
+        <div class="form-group">
+            <label for="guestName">Nome do Convidado</label>
+            <input type="text" id="guestName" placeholder="Seu nome bruxo(a)..." required>
+        </div>
+        <button class="btn" id="startQuizBtn">Iniciar Teste do Chapéu Seletor</button>
+        <p id="formError" style="color:#c04040;margin-top:0.5rem;display:none;"></p>
     </div>
 
-    <script>
-        let currentName = '';
+    <!-- QUIZ - 10 PERGUNTAS -->
+    <div class="quiz-section" id="quizSection" style="display:none;">
+        <div id="questionNumber" style="font-family:'MedievalSharp';color:#a89a7a;margin-bottom:0.5rem;">Pergunta 1/10</div>
+        <div class="question" id="questionText"></div>
+        <div class="options-grid" id="optionsContainer"></div>
+        <div style="margin-top:1.5rem;text-align:right;">
+            <button class="btn" id="nextQuestionBtn" disabled>Próxima ➜</button>
+        </div>
+    </div>
 
-        function getRsvps() {
-            return JSON.parse(localStorage.getItem('rsvps') || '[]');
+    <!-- RESULTADO -->
+    <div class="result-section" id="resultSection">
+        <div class="house-result" id="houseResult"></div>
+        <div class="faction-result" id="factionResult"></div>
+        <div class="seal" id="sealAnim"></div>
+        <p style="text-align:center;color:#d4b483;font-family:'MedievalSharp';">✦ Sua presença está confirmada! ✦</p>
+        <p style="text-align:center;font-size:0.9rem;color:#a89a7a;">Guarde este momento. O selo é sua prova.</p>
+        <button class="btn" id="resetTestBtn" style="margin:1rem auto;display:block;">Fazer novo teste</button>
+    </div>
+
+    <!-- PAINEL ADMIN (VAGAS) -->
+    <div style="margin-top:2rem;text-align:center;">
+        <button class="btn" id="adminToggleBtn">⚙ Administração</button>
+    </div>
+    <div class="admin-panel" id="adminPanel">
+        <h3 style="color:#e3c27a;">⏣ Controle de Vagas</h3>
+        <div class="slot-grid" id="slotGrid"></div>
+        <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;">
+            <div>
+                <label for="adminPass">Senha Admin</label>
+                <input type="password" id="adminPass" placeholder="senha" style="padding:0.5rem;border-radius:8px;border:1px solid #6b5a3a;background:#0e1726;color:#f0e6d0;">
+            </div>
+            <button class="btn" id="adminResetBtn">Resetar Vagas</button>
+        </div>
+        <p id="adminMessage" style="color:#f1d78c;margin-top:0.5rem;"></p>
+    </div>
+
+    <div class="footer-text">★ 60 vagas confirmadas · 20 lista de espera · Ordem da Fênix (30) · Comensais da Morte (30) ★</div>
+</div>
+
+<script>
+    // ========== CONFIG ==========
+    const EVENT_DATE = new Date('2027-04-16T18:00:00-03:00'); // 16/04/2027 18:00 BRT
+
+    // ========== CONTADOR REGRESSIVO ==========
+    function updateCountdown() {
+        const now = new Date();
+        let diff = EVENT_DATE - now;
+        if (diff < 0) diff = 0;
+        const d = Math.floor(diff / 86400000);
+        const h = Math.floor((diff % 86400000) / 3600000);
+        const m = Math.floor((diff % 3600000) / 60000);
+        const s = Math.floor((diff % 60000) / 1000);
+        document.getElementById('cd-days').textContent = String(d).padStart(2,'0');
+        document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
+        document.getElementById('cd-minutes').textContent = String(m).padStart(2,'0');
+        document.getElementById('cd-seconds').textContent = String(s).padStart(2,'0');
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // ========== QUIZ - 10 PERGUNTAS ==========
+    const quiz = [
+        {
+            question: "Ao encontrar um grimório antigo que contém um feitiço perigoso mas poderoso, você:",
+            options: [
+                { text: "Estuda cuidadosamente com outros especialistas para entender seus riscos", casa: "corvinal", faccao: "ordem" },
+                { text: "Usa o feitiço para derrotar inimigos, mesmo que cause danos colaterais", casa: "sonserina", faccao: "comensal" },
+                { text: "Esconde o grimório em um local seguro para que ninguém o use", casa: "lufalufa", faccao: "ordem" },
+                { text: "Confronta diretamente o perigo, usando o feitiço para proteger inocentes", casa: "grifinoria", faccao: "ordem" }
+            ]
+        },
+        {
+            question: "Um colega está sendo humilhado publicamente por um professor injusto. Você:",
+            options: [
+                { text: "Intervém na hora, enfrentando o professor para defender seu colega", casa: "grifinoria", faccao: "ordem" },
+                { text: "Planeja uma vingança silenciosa e estratégica contra o professor", casa: "sonserina", faccao: "comensal" },
+                { text: "Oferece apoio ao colega em particular e o ajuda a superar a situação", casa: "lufalufa", faccao: "ordem" },
+                { text: "Analisa a situação e escreve um artigo anônimo para o jornal escolar", casa: "corvinal", faccao: "ordem" }
+            ]
+        },
+        {
+            question: "Você descobre que um amigo próximo está envolvido em um complô contra a escola. O que faz?",
+            options: [
+                { text: "Tenta convencê-lo a desistir, mas se ele não ouvir, denuncia às autoridades", casa: "grifinoria", faccao: "ordem" },
+                { text: "Apoia o amigo secretamente, pois a lealdade é mais importante que regras", casa: "sonserina", faccao: "comensal" },
+                { text: "Tenta entender os motivos do amigo e mediar uma solução pacífica", casa: "lufalufa", faccao: "ordem" },
+                { text: "Investiga por conta própria para descobrir a verdade antes de agir", casa: "corvinal", faccao: "ordem" }
+            ]
+        },
+        {
+            question: "Sua casa está perdendo a Copa Intercasas por detalhes. O que você faz?",
+            options: [
+                { text: "Treina incansavelmente e motiva os colegas com discursos inflamados", casa: "grifinoria", faccao: "ordem" },
+                { text: "Usa de artimanhas e pequenas sabotagens contra as outras casas", casa: "sonserina", faccao: "comensal" },
+                { text: "Oferece ajuda a todos os colegas, mesmo de outras casas, para melhorar o desempenho geral", casa: "lufalufa", faccao: "ordem" },
+                { text: "Estuda as regras da competição para encontrar brechas legítimas", casa: "corvinal", faccao: "ordem" }
+            ]
+        },
+        {
+            question: "Um evento mágico festival está sendo organizado, mas há divergências sobre o tema. Você:",
+            options: [
+                { text: "Propõe um tema que una todas as casas, mesmo que não seja sua primeira opção", casa: "lufalufa", faccao: "ordem" },
+                { text: "Impõe seu tema com argumentos persuasivos e influência política", casa: "sonserina", faccao: "comensal" },
+                { text: "Cria um comitê para votar democraticamente, com debate aberto", casa: "corvinal", faccao: "ordem" },
+                { text: "Assume a liderança e decide rapidamente, mesmo que cause atritos", casa: "grifinoria", faccao: "ordem" }
+            ]
+        },
+        {
+            question: "Você encontra um objeto mágico que concede desejos, mas com um preço oculto. Você:",
+            options: [
+                { text: "Usa o objeto para realizar um desejo altruísta, aceitando as consequências", casa: "grifinoria", faccao: "ordem" },
+                { text: "Estuda o objeto minuciosamente para entender o preço antes de decidir", casa: "corvinal", faccao: "ordem" },
+                { text: "Usa o objeto para benefício próprio, mas toma precauções para minimizar danos", casa: "sonserina", faccao: "comensal" },
+                { text: "Destrói o objeto imediatamente para que ninguém seja corrompido", casa: "lufalufa", faccao: "ordem" }
+            ]
+        },
+        {
+            question: "Na batalha final iminente, você precisa escolher seu papel:",
+            options: [
+                { text: "Linha de frente – proteger os mais fracos com coragem inabalável", casa: "grifinoria", faccao: "ordem" },
+                { text: "Estratégia – comandar tropas e usar táticas enganosas para vencer", casa: "sonserina", faccao: "comensal" },
+                { text: "Retaguarda – curar feridos e garantir que ninguém fique para trás", casa: "lufalufa", faccao: "ordem" },
+                { text: "Inteligência – analisar o inimigo e encontrar seu ponto fraco", casa: "corvinal", faccao: "ordem" }
+            ]
+        },
+        {
+            question: "Um estudante mais novo está sendo atormentado por valentões. Você:",
+            options: [
+                { text: "Enfrenta os valentões diretamente, mesmo em menor número", casa: "grifinoria", faccao: "ordem" },
+                { text: "Ensina o mais novo a se defender com feitiços úteis e astúcia", casa: "sonserina", faccao: "comensal" },
+                { text: "Conversa com os valentões em particular, tentando resolver pacificamente", casa: "lufalufa", faccao: "ordem" },
+                { text: "Cria um sistema de monitoramento para flagrar os valentões e denunciá-los", casa: "corvinal", faccao: "ordem" }
+            ]
+        },
+        {
+            question: "Seu time perdeu uma partida importante por um erro seu. Você:",
+            options: [
+                { text: "Assume a responsabilidade publicamente e promete treinar mais", casa: "grifinoria", faccao: "ordem" },
+                { text: "Culpa as circunstâncias e planeja uma revanche com vantagem secreta", casa: "sonserina", faccao: "comensal" },
+                { text: "Agradece aos companheiros pelo esforço e trabalha para melhorar o time", casa: "lufalufa", faccao: "ordem" },
+                { text: "Analisa o jogo gravado para identificar todos os erros e corrigi-los", casa: "corvinal", faccao: "ordem" }
+            ]
+        },
+        {
+            question: "Um segredo ancestral sobre a fundação de Hogwarts é revelado a você. O conhecimento pode abalar a ordem atual. Você:",
+            options: [
+                { text: "Revela o segredo para toda a comunidade, acreditando que a verdade liberta", casa: "grifinoria", faccao: "ordem" },
+                { text: "Usa o segredo como moeda de troca para conseguir poder e influência", casa: "sonserina", faccao: "comensal" },
+                { text: "Mantém o segredo para proteger a estabilidade da escola e seus alunos", casa: "lufalufa", faccao: "ordem" },
+                { text: "Estuda o segredo profundamente e publica uma tese acadêmica imparcial", casa: "corvinal", faccao: "ordem" }
+            ]
         }
+    ];
 
-        function updateSlots() {
-            const rsvps = getRsvps();
-            const hCounts = {'Grifinória': 0, 'Sonserina': 0, 'Lufa-Lufa': 0, 'Corvinal': 0};
-            const fCounts = {'Ordem da Fênix': 0, 'Comensais da Morte': 0};
-            rsvps.forEach(r => {
-                if (hCounts.hasOwnProperty(r.house)) hCounts[r.house]++;
-                if (fCounts.hasOwnProperty(r.faction)) fCounts[r.faction]++;
+    // ========== ESTADO DO QUIZ ==========
+    let currentQuestion = 0;
+    let answers = []; // {casa, faccao}
+    let selectedOption = null;
+    const guestNameInput = document.getElementById('guestName');
+    const startBtn = document.getElementById('startQuizBtn');
+    const quizSection = document.getElementById('quizSection');
+    const questionNumber = document.getElementById('questionNumber');
+    const questionText = document.getElementById('questionText');
+    const optionsContainer = document.getElementById('optionsContainer');
+    const nextBtn = document.getElementById('nextQuestionBtn');
+    const resultSection = document.getElementById('resultSection');
+    const houseResult = document.getElementById('houseResult');
+    const factionResult = document.getElementById('factionResult');
+    const seal = document.getElementById('sealAnim');
+    const formError = document.getElementById('formError');
+    const resetTestBtn = document.getElementById('resetTestBtn');
+
+    startBtn.addEventListener('click', () => {
+        const name = guestNameInput.value.trim();
+        if (!name) {
+            formError.textContent = 'Por favor, insira seu nome de convidado.';
+            formError.style.display = 'block';
+            return;
+        }
+        formError.style.display = 'none';
+        // inicia quiz
+        currentQuestion = 0;
+        answers = [];
+        selectedOption = null;
+        quizSection.style.display = 'block';
+        resultSection.classList.remove('show');
+        resultSection.style.display = 'none';
+        startBtn.disabled = true;
+        renderQuestion();
+    });
+
+    function renderQuestion() {
+        const q = quiz[currentQuestion];
+        questionNumber.textContent = `Pergunta ${currentQuestion+1}/10`;
+        questionText.textContent = q.question;
+        optionsContainer.innerHTML = '';
+        selectedOption = null;
+        nextBtn.disabled = true;
+        q.options.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.textContent = opt.text;
+            btn.dataset.index = idx;
+            btn.addEventListener('click', () => {
+                // remove selected
+                document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                selectedOption = idx;
+                nextBtn.disabled = false;
             });
-
-            const setSlot = (id, count, max) => {
-                const el = document.getElementById(id);
-                const rem = Math.max(0, max - count);
-                el.textContent = rem;
-                el.style.color = rem === 0 ? '#ff4444' : '#d4af37';
-                el.style.fontWeight = rem === 0 ? 'bold' : 'normal';
-            };
-
-            setSlot('slots-grif', hCounts['Grifinória'], 15);
-            setSlot('slots-son', hCounts['Sonserina'], 15);
-            setSlot('slots-lufa', hCounts['Lufa-Lufa'], 15);
-            setSlot('slots-corv', hCounts['Corvinal'], 15);
-            setSlot('slots-ordem', fCounts['Ordem da Fênix'], 30);
-            setSlot('slots-comens', fCounts['Comensais da Morte'], 30);
-        }
-
-        function updateCountdown() {
-            const eventDate = new Date('2027-04-16T19:00:00');
-            const now = new Date();
-            let diff = eventDate - now;
-            if (diff < 0) {
-                document.getElementById('countdown').innerHTML = '🪄 <strong>Evento em andamento!</strong> 🪄';
-                return;
-            }
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            diff %= (1000 * 60 * 60 * 24);
-            const hours = Math.floor(diff / (1000 * 60 * 60));
-            diff %= (1000 * 60 * 60);
-            const minutes = Math.floor(diff / (1000 * 60));
-            const seconds = Math.floor(diff / 1000);
-            document.getElementById('countdown').innerHTML = `${days}d ${hours.toString().padStart(2, '0')}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
-        }
-
-        function startQuiz() {
-            currentName = document.getElementById('name').value.trim();
-            if (!currentName) {
-                alert('Por favor, digite seu nome!');
-                return;
-            }
-            document.getElementById('input-section').style.display = 'none';
-            document.getElementById('quiz-section').style.display = 'block';
-        }
-
-        function submitQuiz() {
-            let pointsH = [0, 0, 0, 0];
-            for (let i = 1; i <= 5; i++) {
-                const sel = document.querySelector(`input[name="qh${i}"]:checked`);
-                if (!sel) {
-                    alert('Responda todas as perguntas das casas!');
-                    return;
-                }
-                const val = sel.value;
-                if (val === 'A') pointsH[0]++;
-                else if (val === 'B') pointsH[1]++;
-                else if (val === 'C') pointsH[2]++;
-                else if (val === 'D') pointsH[3]++;
-            }
-            let pointsF = [0, 0];
-            for (let i = 1; i <= 5; i++) {
-                const sel = document.querySelector(`input[name="qf${i}"]:checked`);
-                if (!sel) {
-                    alert('Responda todas as perguntas das facções!');
-                    return;
-                }
-                if (sel.value === 'A') pointsF[0]++;
-                else pointsF[1]++;
-            }
-            const houses = ['Grifinória', 'Sonserina', 'Lufa-Lufa', 'Corvinal'];
-            const maxH = Math.max(...pointsH);
-            const houseIdx = pointsH.indexOf(maxH);
-            const house = houses[houseIdx];
-            const factions = ['Ordem da Fênix', 'Comensais da Morte'];
-            const maxF = Math.max(...pointsF);
-            const factionIdx = pointsF.indexOf(maxF);
-            const faction = factions[factionIdx];
-
-            const rsvps = getRsvps();
-            const lowerName = currentName.toLowerCase();
-            if (rsvps.some(r => r.name.toLowerCase() === lowerName)) {
-                alert('Este nome já fez RSVP! Escolha outro.');
-                return;
-            }
-            const hCount = rsvps.filter(r => r.house === house).length;
-            if (hCount >= 15) {
-                alert(`${house} está lotada! Tente o teste novamente.`);
-                return;
-            }
-            const fCount = rsvps.filter(r => r.faction === faction).length;
-            if (fCount >= 30) {
-                alert(`${faction} está lotada! Tente o teste novamente.`);
-                return;
-            }
-
-            rsvps.push({ name: currentName, house, faction, date: new Date().toISOString() });
-            localStorage.setItem('rsvps', JSON.stringify(rsvps));
-            updateSlots();
-            document.getElementById('confirm-house').textContent = house;
-            document.getElementById('confirm-faction').textContent = faction;
-            document.getElementById('quiz-section').style.display = 'none';
-            document.getElementById('confirm-section').style.display = 'block';
-        }
-
-        function resetForm() {
-            document.getElementById('name').value = '';
-            document.getElementById('confirm-section').style.display = 'none';
-            document.getElementById('input-section').style.display = 'block';
-            // Limpa radios
-            document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
-        }
-
-        function adminReset() {
-            const pw = prompt('Senha do Admin:');
-            if (pw === 'hogwarts2027') {
-                localStorage.removeItem('rsvps');
-                updateSlots();
-                alert('🪄 Dados resetados com sucesso!');
-            } else {
-                alert('Senha incorreta!');
-            }
-        }
-
-        // Inicialização
-        window.addEventListener('load', () => {
-            updateCountdown();
-            setInterval(updateCountdown, 1000);
-            updateSlots();
-            document.getElementById('admin-btn').addEventListener('click', adminReset);
+            optionsContainer.appendChild(btn);
         });
-    </script>
+    }
+
+    nextBtn.addEventListener('click', () => {
+        if (selectedOption === null) return;
+        const q = quiz[currentQuestion];
+        const chosen = q.options[selectedOption];
+        answers.push({ casa: chosen.casa, faccao: chosen.faccao });
+        currentQuestion++;
+        if (currentQuestion < quiz.length) {
+            renderQuestion();
+        } else {
+            finalizarQuiz();
+        }
+    });
+
+    function finalizarQuiz() {
+        quizSection.style.display = 'none';
+        // Calcular casa
+        const pontos = { grifinoria:0, sonserina:0, lufalufa:0, corvinal:0 };
+        let pontosOrdem = 0, pontosComensal = 0;
+        answers.forEach(a => {
+            pontos[a.casa]++;
+            if (a.faccao === 'ordem') pontosOrdem++;
+            else pontosComensal++;
+        });
+        // Determinar casa vencedora
+        let maxPts = 0;
+        let casaVencedora = '';
+        for (let [casa, pts] of Object.entries(pontos)) {
+            if (pts > maxPts) { maxPts = pts; casaVencedora = casa; }
+            else if (pts === maxPts) {
+                // desempate aleatório
+                casaVencedora = [casaVencedora, casa][Math.floor(Math.random()*2)];
+            }
+        }
+        // Mapear nome bonito
+        const nomes = { grifinoria:'Grifinória', sonserina:'Sonserina', lufalufa:'Lufa-Lufa', corvinal:'Corvinal' };
+        const casaNome = nomes[casaVencedora];
+        // Facção
+        const faccao = pontosOrdem >= pontosComensal ? 'Ordem da Fênix' : 'Comensais da Morte';
+        // Exibir resultado
+        houseResult.textContent = `🏠 ${casaNome}`;
+        factionResult.textContent = faccao;
+        resultSection.style.display = 'block';
+        setTimeout(() => resultSection.classList.add('show'), 50);
+        // Animação selo
+        seal.style.animation = 'none';
+        void seal.offsetHeight;
+        seal.style.animation = 'sealSpin 2s ease-in-out forwards';
+        // Salvar vaga
+        salvarVaga(casaVencedora, faccao, guestNameInput.value.trim());
+        // Atualizar painel admin
+        atualizarPainelAdmin();
+    }
+
+    // ========== VAGAS (LocalStorage) ==========
+    const VAGAS_KEY = 'eventoBruxoVagas';
+    const CONFIRMADOS_POR_CASA = 15;
+    const ESPERA_POR_CASA = 5;
+
+    function getVagas() {
+        let data = localStorage.getItem(VAGAS_KEY);
+        if (!data) {
+            data = {
+                grifinoria: { confirmados: 0, espera: [] },
+                sonserina: { confirmados: 0, espera: [] },
+                lufalufa: { confirmados: 0, espera: [] },
+                corvinal: { confirmados: 0, espera: [] }
+            };
+            localStorage.setItem(VAGAS_KEY, JSON.stringify(data));
+            return data;
+        }
+        return JSON.parse(data);
+    }
+
+    function salvarVaga(casa, faccao, nome) {
+        let vagas = getVagas();
+        const casaKey = casa;
+        if (vagas[casaKey].confirmados < CONFIRMADOS_POR_CASA) {
+            vagas[casaKey].confirmados++;
+            // adicionar nome se quiser, mas apenas contagem
+        } else if (vagas[casaKey].espera.length < ESPERA_POR_CASA) {
+            vagas[casaKey].espera.push(nome);
+        } else {
+            // vagas esgotadas para esta casa (não deve ocorrer se lógica respeitar)
+            alert('Vagas esgotadas para esta casa!');
+        }
+        localStorage.setItem(VAGAS_KEY, JSON.stringify(vagas));
+    }
+
+    function atualizarPainelAdmin() {
+        const vagas = getVagas();
+        const slotGrid = document.getElementById('slotGrid');
+        slotGrid.innerHTML = '';
+        const nomes = { grifinoria:'Grifinória', sonserina:'Sonserina', lufalufa:'Lufa-Lufa', corvinal:'Corvinal' };
+        for (let [casa, info] of Object.entries(vagas)) {
+            const div = document.createElement('div');
+            div.className = 'slot-card';
+            div.innerHTML = `<h4>${nomes[casa]}</h4>
+                <div class="count">${info.confirmados}/${CONFIRMADOS_POR_CASA} confirmados</div>
+                <small>Espera: ${info.espera.length}/${ESPERA_POR_CASA}</small>`;
+            slotGrid.appendChild(div);
+        }
+    }
+
+    // ========== ADMIN ==========
+    const adminToggleBtn = document.getElementById('adminToggleBtn');
+    const adminPanel = document.getElementById('adminPanel');
+    adminToggleBtn.addEventListener('click', () => {
+        adminPanel.classList.toggle('show');
+        if (adminPanel.classList.contains('show')) atualizarPainelAdmin();
+    });
+
+    document.getElementById('adminResetBtn').addEventListener('click', () => {
+        const pass = document.getElementById('adminPass').value;
+        if (pass === 'hogwarts2027') {
+            localStorage.removeItem(VAGAS_KEY);
+            atualizarPainelAdmin();
+            document.getElementById('adminMessage').textContent = 'Vagas resetadas com sucesso!';
+        } else {
+            document.getElementById('adminMessage').textContent = 'Senha incorreta!';
+        }
+    });
+
+    // ========== RESET TESTE ==========
+    resetTestBtn.addEventListener('click', () => {
+        resultSection.classList.remove('show');
+        resultSection.style.display = 'none';
+        quizSection.style.display = 'none';
+        startBtn.disabled = false;
+        guestNameInput.value = '';
+    });
+
+    // Inicializar painel se já estiver aberto
+    // também atualizar na carga
+    document.addEventListener('DOMContentLoaded', () => {
+        atualizarPainelAdmin();
+    });
+</script>
 </body>
 </html>
